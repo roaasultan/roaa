@@ -149,3 +149,33 @@ footer {
   background: #c2d3cd;
   color: #3e3e3e;
 }
+
+/* === الحاوية العامة لتوسيط المحتوى === */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* === responsive tweaks === */
+@media (max-width: 768px) {
+  .controls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  nav a {
+    display: block;
+    margin: 0.5rem 0;
+  }
+
+  .pdf-btn,
+  .email-btn,
+  .call-btn {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0;
+    text-align: center;
+  }
+}
