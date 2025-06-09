@@ -100,6 +100,25 @@ nav a:hover {
   background: #1c1c1c;
 }
 
+.email-btn:hover {
+  background-color: #00796b;
+} .call-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #007bff;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 1rem;
+  transition: background 0.3s ease;
+}
+
+.call-btn:hover {
+  background-color: #0056b3;
+}
+ 
+
 footer {
   text-align: center;
   padding: 1rem;
