@@ -118,7 +118,7 @@
         }
         
         .official-link i {
-            margin-right: 8px;
+            margin-left: 8px;
         }
         
         /* Main Services Section */
@@ -242,6 +242,7 @@
         
         .search-section {
             margin-bottom: 30px;
+            display: flex;
         }
         
         .search-section input {
@@ -307,6 +308,22 @@
             color: var(--secondary-color);
         }
         
+        /* Back Button */
+        .back-btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background-color: #00796b;
+        }
+        
         /* Footer Styles */
         footer {
             background-color: var(--primary-color);
@@ -359,6 +376,10 @@
                 gap: 10px;
             }
             
+            .search-section {
+                flex-direction: column;
+            }
+            
             .search-section input {
                 width: 100%;
                 border-radius: 5px;
@@ -368,6 +389,10 @@
             .search-section button {
                 width: 100%;
                 border-radius: 5px;
+            }
+            
+            .management-actions {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -383,130 +408,141 @@
         </div>
     </header>
     
-    <!-- Hospital Information Section -->
-    <section class="hospital-info">
-        <div class="container">
-            <div class="hospital-logo">
-                <img src="https://www.kfmc.med.sa/images/logo.png" alt="شعار مدينة الملك فهد الطبية">
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Hospital Information Section -->
+        <section class="hospital-info" id="hospitalInfo">
+            <div class="container">
+                <div class="hospital-logo">
+                    <img src="https://www.kfmc.med.sa/images/logo.png" alt="شعار مدينة الملك فهد الطبية">
+                </div>
+                <div class="hospital-description">
+                    <h1>مدينة الملك فهد الطبية</h1>
+                    <p>تعد مدينة الملك فهد الطبية من أبرز المنشآت الصحية في المملكة العربية السعودية، تقدم خدمات طبية متكاملة وفق أعلى المعايير العالمية. تأسست عام 2004م وتقع في العاصمة الرياض، وتضم مجموعة من المستشفيات المتخصصة ومراكز الأبحاث الطبية.</p>
+                    <a href="https://www.kfmc.med.sa" class="official-link" target="_blank">
+                        الانتقال إلى الموقع الرسمي للمدينة الطبية
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
             </div>
-            <div class="hospital-description">
-                <h1>مدينة الملك فهد الطبية</h1>
-                <p>تعد مدينة الملك فهد الطبية من أبرز المنشآت الصحية في المملكة العربية السعودية، تقدم خدمات طبية متكاملة وفق أعلى المعايير العالمية. تأسست عام 2004م وتقع في العاصمة الرياض، وتضم مجموعة من المستشفيات المتخصصة ومراكز الأبحاث الطبية.</p>
-                <a href="https://www.kfmc.med.sa" class="official-link" target="_blank">
-                    الانتقال إلى الموقع الرسمي للمدينة الطبية
-                    <i class="fas fa-external-link-alt"></i>
+        </section>
+        
+        <!-- Main Services Section -->
+        <section class="main-services" id="mainServices">
+            <div class="container">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <h3>نظام التصاريح</h3>
+                    <p>إدارة طلبات تصاريح الدخول والمرور في المنشأة الطبية للموظفين والزوار والمقاولين</p>
+                    <a href="#" id="permitsBtn" class="service-btn">الدخول إلى النظام</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-file-signature"></i>
+                    </div>
+                    <h3>نظام إخلاء الطرف</h3>
+                    <p>إدارة وإصدار مستندات إخلاء الطرف للمرضى والزوار والموظفين والمقاولين</p>
+                    <a href="#" id="clearanceBtn" class="service-btn">الدخول إلى النظام</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Permits Management Dashboard (Hidden by default) -->
+        <div id="permitsManagement" class="management-dashboard" style="display: none;">
+            <a href="#" class="back-btn" id="backFromPermits">
+                <i class="fas fa-arrow-right"></i> العودة للصفحة الرئيسية
+            </a>
+            
+            <h2><i class="fas fa-id-card"></i> لوحة إدارة التصاريح</h2>
+            
+            <div class="management-actions">
+                <a href="#" class="action-btn">
+                    <i class="fas fa-plus"></i>
+                    إنشاء تصريح جديد
+                </a>
+                <a href="#" class="action-btn">
+                    <i class="fas fa-clock"></i>
+                    التصاريح قيد المراجعة (5)
+                </a>
+                <a href="#" class="action-btn">
+                    <i class="fas fa-check-circle"></i>
+                    التصاريح المعتمدة (23)
+                </a>
+                <a href="#" class="action-btn">
+                    <i class="fas fa-times-circle"></i>
+                    التصاريح المرفوضة (2)
                 </a>
             </div>
-        </div>
-    </section>
-    
-    <!-- Main Services Section -->
-    <section class="main-services">
-        <div class="container">
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-id-card"></i>
-                </div>
-                <h3>نظام التصاريح</h3>
-                <p>إدارة طلبات تصاريح الدخول والمرور في المنشأة الطبية للموظفين والزوار والمقاولين</p>
-                <a href="#" id="permitsBtn" class="service-btn">الدخول إلى النظام</a>
+            
+            <div class="search-section">
+                <input type="text" placeholder="ابحث برقم التصريح أو اسم الموظف...">
+                <button><i class="fas fa-search"></i> بحث</button>
             </div>
             
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-file-signature"></i>
+            <div class="reports-section">
+                <h3><i class="fas fa-chart-bar"></i> تقارير التصاريح</h3>
+                <div id="permitsChart" style="height: 300px; background-color: #f8f9fa; border-radius: 8px; display: flex; justify-content: center; align-items: center; color: #666;">
+                    [رسم بياني يظهر إحصائيات التصاريح سيظهر هنا]
                 </div>
-                <h3>نظام إخلاء الطرف</h3>
-                <p>إدارة وإصدار مستندات إخلاء الطرف للمرضى والزوار والموظفين والمقاولين</p>
-                <a href="#" id="clearanceBtn" class="service-btn">الدخول إلى النظام</a>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Permits Management Dashboard (Hidden by default) -->
-    <div id="permitsManagement" class="management-dashboard" style="display: none;">
-        <h2><i class="fas fa-id-card"></i> لوحة إدارة التصاريح</h2>
-        
-        <div class="management-actions">
-            <a href="#" class="action-btn">
-                <i class="fas fa-plus"></i>
-                إنشاء تصريح جديد
-            </a>
-            <a href="#" class="action-btn">
-                <i class="fas fa-clock"></i>
-                التصاريح قيد المراجعة (5)
-            </a>
-            <a href="#" class="action-btn">
-                <i class="fas fa-check-circle"></i>
-                التصاريح المعتمدة (23)
-            </a>
-            <a href="#" class="action-btn">
-                <i class="fas fa-times-circle"></i>
-                التصاريح المرفوضة (2)
-            </a>
-        </div>
-        
-        <div class="search-section">
-            <input type="text" placeholder="ابحث برقم التصريح أو اسم الموظف...">
-            <button><i class="fas fa-search"></i> بحث</button>
-        </div>
-        
-        <div class="reports-section">
-            <h3><i class="fas fa-chart-bar"></i> تقارير التصاريح</h3>
-            <div id="permitsChart" style="height: 300px; background-color: #f8f9fa; border-radius: 8px; display: flex; justify-content: center; align-items: center;">
-                [رسم بياني يظهر إحصائيات التصاريح]
-            </div>
-        </div>
-    </div>
-    
-    <!-- Clearance Management Dashboard (Hidden by default) -->
-    <div id="clearanceManagement" class="management-dashboard" style="display: none;">
-        <h2><i class="fas fa-file-signature"></i> لوحة إدارة إخلاء الطرف</h2>
-        
-        <div class="management-actions">
-            <a href="#" class="action-btn">
-                <i class="fas fa-plus"></i>
-                طلب إخلاء طرف جديد
-            </a>
-            <a href="#" class="action-btn">
-                <i class="fas fa-clock"></i>
-                الطلبات قيد المراجعة (8)
-            </a>
-            <a href="#" class="action-btn">
-                <i class="fas fa-check-circle"></i>
-                الطلبات المكتملة (42)
-            </a>
-            <a href="#" class="action-btn">
-                <i class="fas fa-times-circle"></i>
-                الطلبات المرفوضة (3)
-            </a>
-        </div>
-        
-        <div class="quick-stats">
-            <div class="stat-card">
-                <h4>طلبات اليوم</h4>
-                <p>12</p>
-            </div>
-            <div class="stat-card">
-                <h4>طلبات الأسبوع</h4>
-                <p>68</p>
-            </div>
-            <div class="stat-card">
-                <h4>متوسط وقت الإنجاز</h4>
-                <p>2.4 ساعة</p>
             </div>
         </div>
         
-        <div class="search-section" style="margin-top: 30px;">
-            <input type="text" placeholder="ابحث برقم الطلب أو اسم المريض...">
-            <button><i class="fas fa-search"></i> بحث</button>
+        <!-- Clearance Management Dashboard (Hidden by default) -->
+        <div id="clearanceManagement" class="management-dashboard" style="display: none;">
+            <a href="#" class="back-btn" id="backFromClearance">
+                <i class="fas fa-arrow-right"></i> العودة للصفحة الرئيسية
+            </a>
+            
+            <h2><i class="fas fa-file-signature"></i> لوحة إدارة إخلاء الطرف</h2>
+            
+            <div class="management-actions">
+                <a href="#" class="action-btn">
+                    <i class="fas fa-plus"></i>
+                    طلب إخلاء طرف جديد
+                </a>
+                <a href="#" class="action-btn">
+                    <i class="fas fa-clock"></i>
+                    الطلبات قيد المراجعة (8)
+                </a>
+                <a href="#" class="action-btn">
+                    <i class="fas fa-check-circle"></i>
+                    الطلبات المكتملة (42)
+                </a>
+                <a href="#" class="action-btn">
+                    <i class="fas fa-times-circle"></i>
+                    الطلبات المرفوضة (3)
+                </a>
+            </div>
+            
+            <div class="quick-stats">
+                <div class="stat-card">
+                    <h4>طلبات اليوم</h4>
+                    <p>12</p>
+                </div>
+                <div class="stat-card">
+                    <h4>طلبات الأسبوع</h4>
+                    <p>68</p>
+                </div>
+                <div class="stat-card">
+                    <h4>متوسط وقت الإنجاز</h4>
+                    <p>2.4 ساعة</p>
+                </div>
+            </div>
+            
+            <div class="search-section" style="margin-top: 30px;">
+                <input type="text" placeholder="ابحث برقم الطلب أو اسم المريض...">
+                <button><i class="fas fa-search"></i> بحث</button>
+            </div>
         </div>
-    </div>
+    </main>
     
     <!-- Footer Section -->
     <footer>
         <div class="container">
-            <p>جميع الحقوق محفوظة &copy; 2023 مدينة الملك فهد الطبية</p>
+            <p>جميع الحقوق محفوظة &copy; <span id="currentYear"></span> مدينة الملك فهد الطبية</p>
             <p>webKFMC - نظام إدارة التصاريح وإخلاء الطرف</p>
             <div class="footer-links">
                 <a href="#"><i class="fas fa-question-circle"></i> المساعدة</a>
@@ -517,63 +553,68 @@
     </footer>
     
     <script>
-        // JavaScript for page functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Get buttons and sections
+            // Get elements
             const permitsBtn = document.getElementById('permitsBtn');
             const clearanceBtn = document.getElementById('clearanceBtn');
+            const backFromPermits = document.getElementById('backFromPermits');
+            const backFromClearance = document.getElementById('backFromClearance');
             const permitsSection = document.getElementById('permitsManagement');
             const clearanceSection = document.getElementById('clearanceManagement');
-            const mainServices = document.querySelector('.main-services');
-            const hospitalInfo = document.querySelector('.hospital-info');
+            const mainServices = document.getElementById('mainServices');
+            const hospitalInfo = document.getElementById('hospitalInfo');
             
-            // Permits Button Click Handler
+            // Set current year in footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Show Permits Management
             permitsBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-                mainServices.style.display = 'none';
-                hospitalInfo.style.display = 'none';
-                permitsSection.style.display = 'block';
-                clearanceSection.style.display = 'none';
-                
-                // Scroll to the section
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+                toggleSections(true, false);
             });
             
-            // Clearance Button Click Handler
+            // Show Clearance Management
             clearanceBtn.addEventListener('click', function(e) {
                 e.preventDefault();
-                mainServices.style.display = 'none';
-                hospitalInfo.style.display = 'none';
-                clearanceSection.style.display = 'block';
-                permitsSection.style.display = 'none';
-                
-                // Scroll to the section
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+                toggleSections(false, true);
             });
             
-            // Back button functionality (can be added to each dashboard)
-            // Example: 
-            // document.getElementById('backToMain').addEventListener('click', function() {
-            //     mainServices.style.display = 'block';
-            //     hospitalInfo.style.display = 'block';
-            //     permitsSection.style.display = 'none';
-            //     clearanceSection.style.display = 'none';
-            // });
+            // Back to main from Permits
+            backFromPermits.addEventListener('click', function(e) {
+                e.preventDefault();
+                toggleSections(false, false);
+            });
             
-            // Simulated data for charts (in a real app, you would use a charting library)
-            function simulateChartData() {
-                console.log('تم تحميل بيانات الرسم البياني');
-                // In a real implementation, you would use Chart.js or similar here
+            // Back to main from Clearance
+            backFromClearance.addEventListener('click', function(e) {
+                e.preventDefault();
+                toggleSections(false, false);
+            });
+            
+            // Function to toggle sections visibility
+            function toggleSections(showPermits, showClearance) {
+                if (showPermits) {
+                    permitsSection.style.display = 'block';
+                    clearanceSection.style.display = 'none';
+                    mainServices.style.display = 'none';
+                    hospitalInfo.style.display = 'none';
+                } else if (showClearance) {
+                    clearanceSection.style.display = 'block';
+                    permitsSection.style.display = 'none';
+                    mainServices.style.display = 'none';
+                    hospitalInfo.style.display = 'none';
+                } else {
+                    permitsSection.style.display = 'none';
+                    clearanceSection.style.display = 'none';
+                    mainServices.style.display = 'block';
+                    hospitalInfo.style.display = 'block';
+                }
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
             
-            // Initialize any necessary data
-            simulateChartData();
+            // Simulate loading data
+            console.log('تم تحميل النظام بنجاح');
         });
     </script>
 </body>
