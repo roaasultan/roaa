@@ -150,6 +150,40 @@
             transform: translateY(-3px);
         }
         
+        /* Language Switch Dropdown */
+        .language-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .language-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--card-bg);
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .language-menu a {
+            color: var(--text-dark);
+            padding: 10px 16px;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+        }
+        
+        .language-menu a:hover {
+            background-color: var(--color5);
+        }
+        
+        .language-dropdown:hover .language-menu {
+            display: block;
+        }
+        
         /* Profile Image with Animation */
         .profile-img-container {
             position: relative;
@@ -458,29 +492,6 @@
             transform: translateY(-5px);
         }
         
-        /* Language Switch */
-        .language-switch {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .language-btn {
-            background: var(--primary-accent);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .language-btn:hover {
-            background: var(--secondary-accent);
-        }
-        
         /* Responsive Design */
         @media (max-width: 768px) {
             .header-content {
@@ -512,6 +523,11 @@
                 padding: 6px 12px;
                 font-size: 0.9rem;
             }
+            
+            .language-menu {
+                right: auto;
+                left: 0;
+            }
         }
     </style>
 </head>
@@ -521,18 +537,23 @@
         <button class="utility-btn" id="darkModeToggle" title="تبديل الوضع الليلي">
             <i class="fas fa-moon"></i>
         </button>
-        <div class="language-switch">
+        <div class="language-dropdown">
             <button class="utility-btn" id="languageToggle" title="تبديل اللغة">
                 <i class="fas fa-language"></i>
             </button>
+            <div class="language-menu">
+                <a href="#" data-lang="ar">العربية</a>
+                <a href="#" data-lang="en">English</a>
+            </div>
         </div>
     </div>
     
-    <!-- Download CV Button -->
-    <button class="download-cv" id="downloadCV">
-        <i class="fas fa-download"></i>
-        تنزيل السيرة الذاتية
-    </button>
+   <!-- Download CV Button -->
+<button class="download-cv" id="downloadCV">
+    <i class="fas fa-download"></i>
+    <span id="downloadText">تنزيل السيرة الذاتية</span>
+</button>
+    
 
     <header>
         <div class="container header-content">
@@ -540,16 +561,16 @@
                 <img src="R-removebg-preview.png" alt="رؤى سلطان آل حامد" class="profile-img">
             </div>
             <div class="profile-text">
-                <h1 class="animate__animated animate__fadeInDown">رؤى سلطان آل حامد</h1>
-                <p class="animate__animated animate__fadeInUp">مطورة ويب متكاملة</p>
+                <h1 class="animate__animated animate__fadeInDown" id="name">رؤى سلطان آل حامد</h1>
+                <p class="animate__animated animate__fadeInUp" id="title">مطورة ويب متكاملة</p>
             </div>
             <nav class="animate__animated animate__fadeIn">
                 <ul>
-                    <li><a href="#about"><i class="fas fa-user"></i> عني</a></li>
-                    <li><a href="#skills"><i class="fas fa-code"></i> المهارات</a></li>
-                    <li><a href="#experience"><i class="fas fa-briefcase"></i> الخبرة</a></li>
-                    <li><a href="#projects"><i class="fas fa-project-diagram"></i> المشاريع</a></li>
-                    <li><a href="#contact"><i class="fas fa-envelope"></i> تواصل</a></li>
+                    <li><a href="#about"><i class="fas fa-user"></i> <span id="navAbout">عني</span></a></li>
+                    <li><a href="#skills"><i class="fas fa-code"></i> <span id="navSkills">المهارات</span></a></li>
+                    <li><a href="#experience"><i class="fas fa-briefcase"></i> <span id="navExperience">الخبرة</span></a></li>
+                    <li><a href="#projects"><i class="fas fa-project-diagram"></i> <span id="navProjects">المشاريع</span></a></li>
+                    <li><a href="#contact"><i class="fas fa-envelope"></i> <span id="navContact">تواصل</span></a></li>
                 </ul>
             </nav>
         </div>
@@ -557,15 +578,15 @@
 
     <main class="container">
         <section id="about" class="animate__animated animate__fadeIn">
-            <h2><i class="fas fa-user"></i> عني</h2>
-            <p>مطورة ويب متكاملة شغوفة بالتعلم وبناء المشاريع الفعالة. أمتلك مهارات في تقنيات الواجهة الأمامية والخلفية مع خبرة عملية من خلال التدريب والمشاريع الأكاديمية.</p>
+            <h2><i class="fas fa-user"></i> <span id="aboutTitle">عني</span></h2>
+            <p id="aboutText">مطورة ويب متكاملة شغوفة بالتعلم وبناء المشاريع الفعالة. أمتلك مهارات في تقنيات الواجهة الأمامية والخلفية مع خبرة عملية من خلال التدريب والمشاريع الأكاديمية.</p>
         </section>
 
         <section id="skills" class="animate__animated animate__fadeIn">
-            <h2><i class="fas fa-code"></i> المهارات التقنية</h2>
+            <h2><i class="fas fa-code"></i> <span id="skillsTitle">المهارات التقنية</span></h2>
             <div class="skills-container">
                 <div class="skill-category">
-                    <h3>البرمجة</h3>
+                    <h3 id="programmingTitle">البرمجة</h3>
                     <ul class="skills-list">
                         <li>Python</li>
                         <li>Java</li>
@@ -574,7 +595,7 @@
                 </div>
                 
                 <div class="skill-category">
-                    <h3>تطوير الويب</h3>
+                    <h3 id="webDevTitle">تطوير الويب</h3>
                     <ul class="skills-list">
                         <li>HTML/CSS</li>
                         <li>JavaScript</li>
@@ -583,7 +604,7 @@
                 </div>
                 
                 <div class="skill-category">
-                    <h3>أدوات وقواعد بيانات</h3>
+                    <h3 id="toolsTitle">أدوات وقواعد بيانات</h3>
                     <ul class="skills-list">
                         <li>SQL Server</li>
                         <li>ASP.NET Web Forms</li>
@@ -594,51 +615,51 @@
         </section>
 
         <section id="experience" class="animate__animated animate__fadeIn">
-            <h2><i class="fas fa-briefcase"></i> الخبرة العملية</h2>
+            <h2><i class="fas fa-briefcase"></i> <span id="experienceTitle">الخبرة العملية</span></h2>
             <div class="timeline">
                 <div class="timeline-item">
-                    <h3>متدربة كمطورة ويب متكاملة</h3>
-                    <p class="timeline-date">مدينة الملك فهد الطبية، الرياض</p>
+                    <h3 id="exp1Title">متدربة كمطورة ويب متكاملة</h3>
+                    <p class="timeline-date" id="exp1Date">مدينة الملك فهد الطبية، الرياض</p>
                     <ul>
-                        <li>تطوير نظام إلكتروني للتصاريح والإخلاء الطبي</li>
-                        <li>تنفيذ عمليات CRUD وربط البيانات</li>
-                        <li>تصميم واجهات المستخدم باستخدام ASP.NET</li>
-                        <li>تصدير التقارير بصيغ PDF و Excel</li>
+                        <li id="exp1Item1">تطوير نظام إلكتروني للتصاريح والإخلاء الطبي</li>
+                        <li id="exp1Item2">تنفيذ عمليات CRUD وربط البيانات</li>
+                        <li id="exp1Item3">تصميم واجهات المستخدم باستخدام ASP.NET</li>
+                        <li id="exp1Item4">تصدير التقارير بصيغ PDF و Excel</li>
                     </ul>
                 </div>
                 
                 <div class="timeline-item">
-                    <h3>دعم فني وإداري</h3>
-                    <p class="timeline-date">أبريل 2023 - يوليو 2023 | صالون ألوهة</p>
+                    <h3 id="exp2Title">دعم فني وإداري</h3>
+                    <p class="timeline-date" id="exp2Date">أبريل 2023 - يوليو 2023 | صالون ألوهة</p>
                     <ul>
-                        <li>تقديم الدعم الفني والإداري في المهام اليومية</li>
+                        <li id="exp2Item1">تقديم الدعم الفني والإداري في المهام اليومية</li>
                     </ul>
                 </div>
                 
                 <div class="timeline-item">
-                    <h3>مساهمة في المشاريع الرقمية</h3>
-                    <p class="timeline-date">عمل عن بعد - حديث | شركة سمارت كات</p>
+                    <h3 id="exp3Title">مساهمة في المشاريع الرقمية</h3>
+                    <p class="timeline-date" id="exp3Date">عمل عن بعد - حديث | شركة سمارت كات</p>
                     <ul>
-                        <li>المساهمة في المشاريع الرقمية</li>
-                        <li>تقديم الدعم الفني عن بعد</li>
+                        <li id="exp3Item1">المساهمة في المشاريع الرقمية</li>
+                        <li id="exp3Item2">تقديم الدعم الفني عن بعد</li>
                     </ul>
                 </div>
             </div>
         </section>
 
         <section id="projects" class="animate__animated animate__fadeIn">
-            <h2><i class="fas fa-project-diagram"></i> المشاريع</h2>
+            <h2><i class="fas fa-project-diagram"></i> <span id="projectsTitle">المشاريع</span></h2>
             <div class="projects-grid">
                 <div class="project-card">
                     <div class="project-img">
                         <i class="fas fa-home fa-3x"></i>
                     </div>
                     <div class="project-content">
-                        <h3>نظام إدارة العائلة</h3>
+                        <h3 id="project1Title">نظام إدارة العائلة</h3>
                         <ul>
-                            <li>تقويم موحد للعائلة</li>
-                            <li>إدارة المهام والمصروفات</li>
-                            <li>دعم متعدد اللغات</li>
+                            <li id="project1Item1">تقويم موحد للعائلة</li>
+                            <li id="project1Item2">إدارة المهام والمصروفات</li>
+                            <li id="project1Item3">دعم متعدد اللغات</li>
                         </ul>
                     </div>
                 </div>
@@ -648,11 +669,11 @@
                         <i class="fas fa-hospital fa-3x"></i>
                     </div>
                     <div class="project-content">
-                        <h3>نظام تصاريح مدينة الملك فهد الطبية</h3>
+                        <h3 id="project2Title">نظام تصاريح مدينة الملك فهد الطبية</h3>
                         <ul>
-                            <li>تقديم إلكتروني للتصاريح والإخلاء الطبي</li>
-                            <li>ربط مع قواعد البيانات</li>
-                            <li>تصدير التقارير</li>
+                            <li id="project2Item1">تقديم إلكتروني للتصاريح والإخلاء الطبي</li>
+                            <li id="project2Item2">ربط مع قواعد البيانات</li>
+                            <li id="project2Item3">تصدير التقارير</li>
                         </ul>
                     </div>
                 </div>
@@ -662,11 +683,11 @@
                         <i class="fas fa-mobile-alt fa-3x"></i>
                     </div>
                     <div class="project-content">
-                        <h3>تطبيق العائلة (مشروع التخرج)</h3>
+                        <h3 id="project3Title">تطبيق العائلة (مشروع التخرج)</h3>
                         <ul>
-                            <li>تم بناؤه باستخدام Java و Android Studio</li>
-                            <li>إدارة المهام والمصروفات</li>
-                            <li>واجهة مستخدم سهلة الاستخدام</li>
+                            <li id="project3Item1">تم بناؤه باستخدام Java و Android Studio</li>
+                            <li id="project3Item2">إدارة المهام والمصروفات</li>
+                            <li id="project3Item3">واجهة مستخدم سهلة الاستخدام</li>
                         </ul>
                     </div>
                 </div>
@@ -674,19 +695,19 @@
         </section>
 
         <section id="contact" class="animate__animated animate__fadeIn">
-            <h2><i class="fas fa-envelope"></i> تواصل معي</h2>
+            <h2><i class="fas fa-envelope"></i> <span id="contactTitle">تواصل معي</span></h2>
             <div class="contact-info">
                 <div class="contact-item">
                     <i class="fas fa-envelope"></i>
                     <div>
-                        <h3>البريد الإلكتروني</h3>
+                        <h3 id="emailTitle">البريد الإلكتروني</h3>
                         <p>Roaalhameed@gmail.com</p>
                     </div>
                 </div>
                 <div class="contact-item">
                     <i class="fas fa-phone"></i>
                     <div>
-                        <h3>الهاتف</h3>
+                        <h3 id="phoneTitle">الهاتف</h3>
                         <p>0566439605</p>
                     </div>
                 </div>
@@ -696,7 +717,7 @@
 
     <footer class="animate__animated animate__fadeInUp">
         <div class="container">
-            <p>&copy; 2023 جميع الحقوق محفوظة لرؤى سلطان آل حامد</p>
+            <p id="copyright">&copy; 2023 جميع الحقوق محفوظة لرؤى سلطان آل حامد</p>
             <div class="social-links">
                 <a href="#"><i class="fab fa-linkedin"></i></a>
                 <a href="#"><i class="fab fa-github"></i></a>
@@ -706,6 +727,107 @@
     </footer>
 
     <script>
+        // Translation Data
+        const translations = {
+            en: {
+                name: "Roa Sultan Al Hamed",
+                title: "Full Stack Web Developer",
+                navAbout: "About",
+                navSkills: "Skills",
+                navExperience: "Experience",
+                navProjects: "Projects",
+                navContact: "Contact",
+                aboutTitle: "About Me",
+                aboutText: "Passionate full stack web developer with skills in front-end and back-end technologies. Gained practical experience through training and academic projects.",
+                skillsTitle: "Technical Skills",
+                programmingTitle: "Programming",
+                webDevTitle: "Web Development",
+                toolsTitle: "Tools & Databases",
+                experienceTitle: "Work Experience",
+                exp1Title: "Intern as Full Stack Developer",
+                exp1Date: "King Fahad Medical City, Riyadh",
+                exp1Item1: "Developed an electronic system for medical permits and clearances",
+                exp1Item2: "Implemented CRUD operations and data binding",
+                exp1Item3: "Designed user interfaces using ASP.NET",
+                exp1Item4: "Exported reports in PDF and Excel formats",
+                exp2Title: "Technical & Administrative Support",
+                exp2Date: "Apr 2023 - Jul 2023 | Aloha Salon",
+                exp2Item1: "Provided daily technical and administrative support",
+                exp3Title: "Contributor to Digital Projects",
+                exp3Date: "Remote Work | Smart Cat Company",
+                exp3Item1: "Contributed to digital projects",
+                exp3Item2: "Provided remote technical support",
+                projectsTitle: "Projects",
+                project1Title: "Family Management System",
+                project1Item1: "Unified family calendar",
+                project1Item2: "Tasks and expenses management",
+                project1Item3: "Multi-language support",
+                project2Title: "King Fahad Medical City Permits System",
+                project2Item1: "Electronic submission of medical permits and clearances",
+                project2Item2: "Database integration",
+                project2Item3: "Reports export",
+                project3Title: "Family App (Graduation Project)",
+                project3Item1: "Built with Java and Android Studio",
+                project3Item2: "Tasks and expenses management",
+                project3Item3: "User-friendly interface",
+                contactTitle: "Contact Me",
+                emailTitle: "Email",
+                phoneTitle: "Phone",
+                copyright: "&copy; 2023 All Rights Reserved by Roa Sultan Al Hamed",
+                downloadText: "Download CV"
+            },
+            ar: {
+                name: "رؤى سلطان آل حامد",
+                title: "مطورة ويب متكاملة",
+                navAbout: "عني",
+                navSkills: "المهارات",
+                navExperience: "الخبرة",
+                navProjects: "المشاريع",
+                navContact: "تواصل",
+                aboutTitle: "عني",
+                aboutText: "مطورة ويب متكاملة شغوفة بالتعلم وبناء المشاريع الفعالة. أمتلك مهارات في تقنيات الواجهة الأمامية والخلفية مع خبرة عملية من خلال التدريب والمشاريع الأكاديمية.",
+                skillsTitle: "المهارات التقنية",
+                programmingTitle: "البرمجة",
+                webDevTitle: "تطوير الويب",
+                toolsTitle: "أدوات وقواعد بيانات",
+                experienceTitle: "الخبرة العملية",
+                exp1Title: "متدربة كمطورة ويب متكاملة",
+                exp1Date: "مدينة الملك فهد الطبية، الرياض",
+                exp1Item1: "تطوير نظام إلكتروني للتصاريح والإخلاء الطبي",
+                exp1Item2: "تنفيذ عمليات CRUD وربط البيانات",
+                exp1Item3: "تصميم واجهات المستخدم باستخدام ASP.NET",
+                exp1Item4: "تصدير التقارير بصيغ PDF و Excel",
+                exp2Title: "دعم فني وإداري",
+                exp2Date: "أبريل 2023 - يوليو 2023 | صالون ألوهة",
+                exp2Item1: "تقديم الدعم الفني والإداري في المهام اليومية",
+                exp3Title: "مساهمة في المشاريع الرقمية",
+                exp3Date: "عمل عن بعد - حديث | شركة سمارت كات",
+                exp3Item1: "المساهمة في المشاريع الرقمية",
+                exp3Item2: "تقديم الدعم الفني عن بعد",
+                projectsTitle: "المشاريع",
+                project1Title: "نظام إدارة العائلة",
+                project1Item1: "تقويم موحد للعائلة",
+                project1Item2: "إدارة المهام والمصروفات",
+                project1Item3: "دعم متعدد اللغات",
+                project2Title: "نظام تصاريح مدينة الملك فهد الطبية",
+                project2Item1: "تقديم إلكتروني للتصاريح والإخلاء الطبي",
+                project2Item2: "ربط مع قواعد البيانات",
+                project2Item3: "تصدير التقارير",
+                project3Title: "تطبيق العائلة (مشروع التخرج)",
+                project3Item1: "تم بناؤه باستخدام Java و Android Studio",
+                project3Item2: "إدارة المهام والمصروفات",
+                project3Item3: "واجهة مستخدم سهلة الاستخدام",
+                contactTitle: "تواصل معي",
+                emailTitle: "البريد الإلكتروني",
+                phoneTitle: "الهاتف",
+                copyright: "&copy; 2023 جميع الحقوق محفوظة لرؤى سلطان آل حامد",
+                downloadText: "تنزيل السيرة الذاتية"
+            }
+        };
+
+        // Current Language
+        let currentLang = 'ar';
+        
         // Dark Mode Toggle
         const darkModeToggle = document.getElementById('darkModeToggle');
         const body = document.body;
@@ -728,21 +850,47 @@
             }
         });
         
-        // Language Toggle (Example - would need actual translation implementation)
-        const languageToggle = document.getElementById('languageToggle');
-        languageToggle.addEventListener('click', () => {
-            // This is just a visual example - actual language switching would require
-            // either a page reload with different language or a more complex JS solution
-            alert('سيتم تبديل اللغة إلى الإنجليزية في التطبيق الكامل');
+        // Language Toggle
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('language', lang);
+            
+            // Update text direction
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            
+            // Update all translatable elements
+            const elements = document.querySelectorAll('[id]');
+            elements.forEach(el => {
+                if (translations[lang][el.id]) {
+                    el.textContent = translations[lang][el.id];
+                }
+            });
+        }
+        
+        // Check for saved language preference
+        if (localStorage.getItem('language')) {
+            setLanguage(localStorage.getItem('language'));
+        }
+        
+        // Language dropdown functionality
+        document.querySelectorAll('.language-menu a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = link.getAttribute('data-lang');
+                setLanguage(lang);
+            });
         });
         
         // Download CV Button
-        const downloadCV = document.getElementById('downloadCV');
-        downloadCV.addEventListener('click', () => {
-            // In a real implementation, this would link to your actual CV file
-            alert('سيبدأ تنزيل ملف السيرة الذاتية في التطبيق الكامل');
-        });
-        
+
+        document.getElementById("downloadCV").addEventListener("click", function () {
+        const link = document.createElement("a");
+        link.href = "MyCvRoaa.pdf"; // تأكد أن الملف موجود في نفس مجلد الصفحة
+        link.download = "CV_Roaa_Sultan.pdf";
+        link.click();
+    });
+
+   
         // Animation on scroll
         document.addEventListener('DOMContentLoaded', function() {
             const sections = document.querySelectorAll('section');
