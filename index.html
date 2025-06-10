@@ -8,19 +8,43 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         :root {
-            --color1: #ccc6b5;
-            --color2: #c8c4b9;
-            --color3: #c4c2be;
-            --color4: #c0c0c2;
-            --color5: #bbbec6;
-            --color6: #b7bccb;
-            --color7: #b2bacf;
+            --color1: #5e4b8b;
+            --color2: #7d6ba0;
+            --color3: #9c8cb5;
+            --color4: #bbadca;
+            --color5: #dacfe0;
+            --color6: #f0ebf5;
+            --color7: #ffffff;
+            --primary-accent: #5e4b8b;
+            --secondary-accent: #ff7e5f;
             --transition: all 0.3s ease-in-out;
             --text-dark: #333333;
             --text-medium: #555555;
             --text-light: #777777;
             --bg-light: #f8f9fa;
             --bg-dark: #2c3e50;
+            --card-bg: #ffffff;
+            --shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        /* Dark Mode Variables */
+        .dark-mode {
+            --color1: #3a2c5a;
+            --color2: #4a3a6a;
+            --color3: #5a487a;
+            --color4: #6a568a;
+            --color5: #7a649a;
+            --color6: #2d3748;
+            --color7: #1a202c;
+            --primary-accent: #9f7aea;
+            --secondary-accent: #f687b3;
+            --text-dark: #f7fafc;
+            --text-medium: #e2e8f0;
+            --text-light: #cbd5e0;
+            --bg-light: #1a202c;
+            --bg-dark: #0d1117;
+            --card-bg: #2d3748;
+            --shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
         * {
@@ -34,6 +58,7 @@
             background-color: var(--bg-light);
             color: var(--text-dark);
             line-height: 1.6;
+            transition: var(--transition);
         }
         
         .container {
@@ -44,11 +69,12 @@
         
         /* Header Styles */
         header {
-            background: linear-gradient(135deg, var(--color7), var(--color5));
+            background: linear-gradient(135deg, var(--color1), var(--color3));
             color: white;
             padding: 2rem 0;
             position: relative;
             overflow: hidden;
+            transition: var(--transition);
         }
         
         header::before {
@@ -68,6 +94,60 @@
             align-items: center;
             position: relative;
             z-index: 2;
+        }
+        
+        /* Utility Buttons */
+        .utility-buttons {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .utility-btn {
+            background: var(--primary-accent);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+        
+        .utility-btn:hover {
+            background: var(--secondary-accent);
+            transform: translateY(-3px);
+        }
+        
+        .download-cv {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--secondary-accent);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            z-index: 1000;
+            font-weight: bold;
+        }
+        
+        .download-cv:hover {
+            background: var(--primary-accent);
+            transform: translateY(-3px);
         }
         
         /* Profile Image with Animation */
@@ -179,9 +259,9 @@
         section {
             margin-bottom: 3rem;
             padding: 2rem;
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: var(--shadow);
             transition: var(--transition);
         }
         
@@ -191,10 +271,10 @@
         }
         
         section h2 {
-            color: var(--color7);
+            color: var(--primary-accent);
             margin-bottom: 1.5rem;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--color2);
+            border-bottom: 2px solid var(--color4);
             display: flex;
             align-items: center;
         }
@@ -213,7 +293,7 @@
         .contact-item {
             flex: 1;
             min-width: 200px;
-            background: linear-gradient(135deg, var(--color1), var(--color3));
+            background: linear-gradient(135deg, var(--color6), var(--color5));
             padding: 1.5rem;
             border-radius: 8px;
             display: flex;
@@ -229,10 +309,10 @@
         .contact-item i {
             font-size: 1.5rem;
             margin-left: 15px;
-            color: var(--color7);
+            color: var(--primary-accent);
         }
         
-        /* Skills Section - Updated without percentages */
+        /* Skills Section */
         .skills-container {
             display: flex;
             flex-wrap: wrap;
@@ -242,16 +322,16 @@
         .skill-category {
             flex: 1;
             min-width: 250px;
-            background-color: var(--bg-light);
+            background-color: var(--color6);
             padding: 1.5rem;
             border-radius: 8px;
         }
         
         .skill-category h3 {
-            color: var(--color7);
+            color: var(--primary-accent);
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--color3);
+            border-bottom: 1px solid var(--color4);
         }
         
         .skills-list {
@@ -266,7 +346,7 @@
         
         .skills-list li::before {
             content: "•";
-            color: var(--color7);
+            color: var(--primary-accent);
             font-size: 1.5rem;
             position: absolute;
             right: 0;
@@ -286,7 +366,7 @@
             right: 15px;
             width: 2px;
             height: 100%;
-            background-color: var(--color5);
+            background-color: var(--color4);
         }
         
         .timeline-item {
@@ -303,12 +383,12 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background-color: var(--color7);
-            border: 4px solid var(--color3);
+            background-color: var(--primary-accent);
+            border: 4px solid var(--color5);
         }
         
         .timeline-date {
-            color: var(--color7);
+            color: var(--primary-accent);
             font-weight: bold;
             margin-bottom: 0.5rem;
         }
@@ -321,11 +401,11 @@
         }
         
         .project-card {
-            background-color: var(--bg-light);
+            background-color: var(--color6);
             border-radius: 8px;
             overflow: hidden;
             transition: var(--transition);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: var(--shadow);
         }
         
         .project-card:hover {
@@ -335,11 +415,11 @@
         
         .project-img {
             height: 180px;
-            background-color: var(--color4);
+            background: linear-gradient(135deg, var(--color4), var(--color2));
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-light);
+            color: white;
         }
         
         .project-content {
@@ -347,7 +427,7 @@
         }
         
         .project-content h3 {
-            color: var(--color7);
+            color: var(--primary-accent);
             margin-bottom: 0.5rem;
         }
         
@@ -374,8 +454,31 @@
         }
         
         .social-links a:hover {
-            color: var(--color7);
+            color: var(--secondary-accent);
             transform: translateY(-5px);
+        }
+        
+        /* Language Switch */
+        .language-switch {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .language-btn {
+            background: var(--primary-accent);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .language-btn:hover {
+            background: var(--secondary-accent);
         }
         
         /* Responsive Design */
@@ -397,10 +500,40 @@
             .skills-container {
                 flex-direction: column;
             }
+            
+            .utility-buttons {
+                top: 10px;
+                left: 10px;
+            }
+            
+            .download-cv {
+                top: 10px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Utility Buttons -->
+    <div class="utility-buttons">
+        <button class="utility-btn" id="darkModeToggle" title="تبديل الوضع الليلي">
+            <i class="fas fa-moon"></i>
+        </button>
+        <div class="language-switch">
+            <button class="utility-btn" id="languageToggle" title="تبديل اللغة">
+                <i class="fas fa-language"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Download CV Button -->
+    <button class="download-cv" id="downloadCV">
+        <i class="fas fa-download"></i>
+        تنزيل السيرة الذاتية
+    </button>
+
     <header>
         <div class="container header-content">
             <div class="profile-img-container">
@@ -573,6 +706,43 @@
     </footer>
 
     <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+        
+        // Check for saved user preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+        
+        // Language Toggle (Example - would need actual translation implementation)
+        const languageToggle = document.getElementById('languageToggle');
+        languageToggle.addEventListener('click', () => {
+            // This is just a visual example - actual language switching would require
+            // either a page reload with different language or a more complex JS solution
+            alert('سيتم تبديل اللغة إلى الإنجليزية في التطبيق الكامل');
+        });
+        
+        // Download CV Button
+        const downloadCV = document.getElementById('downloadCV');
+        downloadCV.addEventListener('click', () => {
+            // In a real implementation, this would link to your actual CV file
+            alert('سيبدأ تنزيل ملف السيرة الذاتية في التطبيق الكامل');
+        });
+        
         // Animation on scroll
         document.addEventListener('DOMContentLoaded', function() {
             const sections = document.querySelectorAll('section');
