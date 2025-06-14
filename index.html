@@ -1,1 +1,1236 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رؤى سلطان  - مطورة ويب متكاملة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --color1: #FFCFCF;
+            --color2: #FFE2E2;
+            --color3: #FFFDEC;
+            --color4: #86A788;
+            --primary-accent: #86A788;
+            --secondary-accent: #FFCFCF;
+            --text-dark: #333333;
+            --text-medium: #555555;
+            --text-light: #777777;
+            --bg-light: #FFFDEC;
+            --bg-dark: #4A6B4D;
+            --card-bg: #FFFFFF;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease-in-out;
+        }
 
+        .dark-mode {
+            --color1: #4A3A3A;
+            --color2: #5C4A4A;
+            --color3: #2D3748;
+            --color4: #86A788;
+            --primary-accent: #86A788;
+            --secondary-accent: #FFCFCF;
+            --text-dark: #F8F8F8;
+            --text-medium: #E0E0E0;
+            --text-light: #B0B0B0;
+            --bg-light: #1A202C;
+            --bg-dark: #0D1117;
+            --card-bg: #2D3748;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.7;
+            transition: var(--transition);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--color1), var(--color2));
+            color: var(--primary-accent);
+            padding: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Utility Buttons */
+        .utility-buttons {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .utility-btn {
+            background: var(--primary-accent);
+            color: white;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .utility-btn:hover {
+            background: var(--secondary-accent);
+            transform: translateY(-3px) scale(1.1);
+        }
+
+        .download-cv {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-accent);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            z-index: 1000;
+            font-weight: 600;
+        }
+
+        .download-cv:hover {
+            background: var(--secondary-accent);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Language Switch Dropdown */
+        .language-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .language-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: var(--card-bg);
+            min-width: 120px;
+            box-shadow: var(--shadow);
+            border-radius: 10px;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .language-menu a {
+            color: var(--text-dark);
+            padding: 10px 16px;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .language-menu a:hover {
+            background-color: var(--color2);
+        }
+
+        .language-dropdown:hover .language-menu {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Profile Image with Animation */
+        .profile-img-container {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin-bottom: 1.8rem;
+            perspective: 1000px;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 6px solid white;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+            transform-style: preserve-3d;
+            transition: var(--transition);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .profile-img-container:hover .profile-img {
+            transform: rotateY(20deg) scale(1.05);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.2);
+        }
+
+        .profile-img-container::after {
+            content: '';
+            position: absolute;
+            top: -12px;
+            left: -12px;
+            right: -12px;
+            bottom: -12px;
+            border-radius: 50%;
+            border: 3px dashed var(--color4);
+            animation: rotate 25s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .profile-text {
+            text-align: center;
+        }
+
+        .profile-text h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.6rem;
+            color: var(--primary-accent);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .profile-text p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            color: var(--text-medium);
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        /* Navigation */
+        nav {
+            margin-top: 2.5rem;
+            animation: fadeIn 1s ease-out 0.6s both;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        nav li {
+            margin: 0 5px;
+        }
+
+        nav a {
+            color: var(--primary-accent);
+            text-decoration: none;
+            padding: 0.7rem 1.3rem;
+            border-radius: 30px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            background-color: rgba(255,255,255,0.3);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        nav a:hover {
+            background-color: rgba(255,255,255,0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        nav a i {
+            margin-left: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* Main Content */
+        main {
+            padding: 4rem 0;
+        }
+
+        section {
+            margin-bottom: 3.5rem;
+            background-color: var(--card-bg);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        section h2 {
+            color: var(--primary-accent);
+            margin-bottom: 2rem;
+            padding: 2rem 2.5rem 1rem;
+            border-bottom: 2px solid var(--color4);
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+        }
+
+        section h2 i {
+            margin-left: 15px;
+            font-size: 1.8rem;
+        }
+
+        /* About Section */
+        #about {
+            padding: 2.5rem;
+        }
+
+        #about p {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            color: var(--text-medium);
+            padding: 0 1.5rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 0 2.5rem 2.5rem;
+        }
+
+        .skill-category {
+            background-color: var(--color3);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .skill-category h3 {
+            color: var(--primary-accent);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--color4);
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .skills-list {
+            list-style-type: none;
+        }
+
+        .skills-list li {
+            position: relative;
+            padding-right: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.15rem;
+            color: var(--text-medium);
+            transition: var(--transition);
+        }
+
+        .skills-list li:hover {
+            color: var(--primary-accent);
+            transform: translateX(5px);
+        }
+
+        .skills-list li::before {
+            content: "•";
+            color: var(--primary-accent);
+            font-size: 1.8rem;
+            position: absolute;
+            right: 0;
+            top: -0.4rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 0 2.5rem 2.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 20px;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--color4), transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-right: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: var(--primary-accent);
+            border: 5px solid var(--color3);
+            box-shadow: 0 0 0 3px var(--color4);
+            z-index: 1;
+        }
+
+        .timeline-date {
+            color: var(--primary-accent);
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .timeline-date i {
+            margin-left: 8px;
+        }
+
+        .timeline-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .timeline-item ul {
+            list-style-position: inside;
+            padding-right: 1rem;
+        }
+
+        .timeline-item li {
+            margin-bottom: 0.8rem;
+            color: var(--text-medium);
+            line-height: 1.7;
+            font-size: 1.1rem;
+            position: relative;
+            padding-right: 1rem;
+        }
+
+        .timeline-item li::before {
+            content: "›";
+            color: var(--primary-accent);
+            position: absolute;
+            right: -5px;
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            padding: 0 2.5rem 2.5rem;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .project-img {
+            height: 200px;
+            background: linear-gradient(135deg, var(--color1), var(--color2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-accent);
+            font-size: 4rem;
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-content h3 {
+            color: var(--primary-accent);
+            margin-bottom: 1.2rem;
+            font-size: 1.5rem;
+        }
+
+        .project-content ul {
+            list-style-type: none;
+        }
+
+        .project-content li {
+            position: relative;
+            padding-right: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-medium);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .project-content li::before {
+            content: "•";
+            color: var(--primary-accent);
+            font-size: 1.8rem;
+            position: absolute;
+            right: 0;
+            top: -0.4rem;
+        }
+
+        /* Contact Section - Enhanced Design */
+        #contact {
+            background: linear-gradient(135deg, var(--color1), var(--color2));
+            padding: 4rem 2rem;
+            border-radius: 18px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #contact::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--color4) 0%, transparent 70%);
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        #contact::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--color4) 0%, transparent 70%);
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        .contact-container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        #contact h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-accent);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #contact h2::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+            border-radius: 4px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 18px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+            color: var(--primary-accent);
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--color3), var(--color4));
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        .contact-card:hover .contact-icon {
+            transform: rotate(15deg) scale(1.1);
+            background: linear-gradient(135deg, var(--color4), var(--primary-accent));
+        }
+
+        .contact-card h3 {
+            color: var(--primary-accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .contact-card p, 
+        .contact-card a {
+            color: var(--text-medium);
+            font-size: 1.3rem;
+            transition: var(--transition);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+
+        .contact-card a:hover {
+            color: var(--primary-accent);
+            transform: translateX(8px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-dark);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 2rem;
+            margin: 0 20px;
+            transition: var(--transition);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .social-links a:hover {
+            color: var(--secondary-accent);
+            transform: translateY(-8px) scale(1.1);
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        #copyright {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .profile-img-container {
+                width: 200px;
+                height: 200px;
+            }
+            
+            section h2 {
+                font-size: 1.8rem;
+                padding: 1.8rem 2rem 1rem;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            nav li {
+                margin: 5px 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav a {
+                justify-content: center;
+            }
+            
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .utility-buttons {
+                top: 15px;
+                left: 15px;
+            }
+            
+            .download-cv {
+                top: 15px;
+                right: 15px;
+                padding: 8px 16px;
+                font-size: 0.95rem;
+            }
+            
+            .language-menu {
+                right: auto;
+                left: 0;
+            }
+
+            #contact {
+                padding: 3rem 1.5rem;
+            }
+            
+            #contact h2 {
+                font-size: 2rem;
+            }
+            
+            .contact-card {
+                padding: 2rem;
+            }
+            
+            .contact-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2.5rem;
+            }
+            
+            .profile-text h1 {
+                font-size: 2.4rem;
+            }
+            
+            .profile-text p {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-img-container {
+                width: 180px;
+                height: 180px;
+            }
+            
+            section h2 {
+                font-size: 1.6rem;
+                padding: 1.5rem 1.5rem 1rem;
+            }
+            
+            #contact h2 {
+                font-size: 1.8rem;
+            }
+            
+            .contact-card {
+                padding: 1.5rem;
+            }
+            
+            .contact-card h3 {
+                font-size: 1.5rem;
+            }
+            
+            .contact-card p, 
+            .contact-card a {
+                font-size: 1.1rem;
+            }
+            
+            .social-links a {
+                width: 50px;
+                height: 50px;
+                font-size: 1.8rem;
+                margin: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Utility Buttons -->
+    <div class="utility-buttons">
+        <button class="utility-btn" id="darkModeToggle" title="تبديل الوضع الليلي">
+            <i class="fas fa-moon"></i>
+        </button>
+        <div class="language-dropdown">
+            <button class="utility-btn" id="languageToggle" title="تبديل اللغة">
+                <i class="fas fa-language"></i>
+            </button>
+            <div class="language-menu">
+                <a href="#" data-lang="ar">العربية</a>
+                <a href="#" data-lang="en">English</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Download CV Button -->
+    <button class="download-cv" id="downloadCV">
+        <i class="fas fa-download"></i>
+        <span id="downloadText">تنزيل السيرة الذاتية</span>
+    </button>
+
+    <header>
+        <div class="container header-content">
+            <div class="profile-img-container">
+                <img src="roaar.png" alt="رؤى سلطان " class="profile-img">
+            </div>
+            <div class="profile-text">
+                <h1 class="animate__animated animate__fadeInDown" id="name">رؤى سلطان </h1>
+                <p class="animate__animated animate__fadeInUp" id="title">مطورة ويب متكاملة</p>
+            </div>
+            <nav class="animate__animated animate__fadeIn">
+                <ul>
+                    <li><a href="#about"><i class="fas fa-user"></i> <span id="navAbout">عني</span></a></li>
+                    <li><a href="#skills"><i class="fas fa-code"></i> <span id="navSkills">المهارات</span></a></li>
+                    <li><a href="#experience"><i class="fas fa-briefcase"></i> <span id="navExperience">الخبرة</span></a></li>
+                    <li><a href="#projects"><i class="fas fa-project-diagram"></i> <span id="navProjects">المشاريع</span></a></li>
+                    <li><a href="#contact"><i class="fas fa-envelope"></i> <span id="navContact">تواصل</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="about" class="animate__animated animate__fadeIn">
+            <h2><i class="fas fa-user"></i> <span id="aboutTitle">عني</span></h2>
+            <p id="aboutText">مطورة ويب متكاملة شغوفة بالتعلم وبناء المشاريع الفعالة. أمتلك مهارات في تقنيات الواجهة الأمامية والخلفية مع خبرة عملية من خلال التدريب والمشاريع الأكاديمية.</p>
+        </section>
+
+        <section id="skills" class="animate__animated animate__fadeIn">
+            <h2><i class="fas fa-code"></i> <span id="skillsTitle">المهارات التقنية</span></h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3 id="programmingTitle">البرمجة</h3>
+                    <ul class="skills-list">
+                        <li>Python</li>
+                        <li>Java</li>
+                        <li>C#</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-category">
+                    <h3 id="webDevTitle">تطوير الويب</h3>
+                    <ul class="skills-list">
+                        <li>HTML/CSS</li>
+                        <li>JavaScript</li>
+                        <li>PHP</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-category">
+                    <h3 id="toolsTitle">أدوات وقواعد بيانات</h3>
+                    <ul class="skills-list">
+                        <li>SQL Server</li>
+                        <li>ASP.NET Web Forms</li>
+                        <li>Android Studio</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="animate__animated animate__fadeIn">
+            <h2><i class="fas fa-briefcase"></i> <span id="experienceTitle">الخبرة العملية</span></h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3 id="exp1Title">متدربة كمطورة ويب متكاملة</h3>
+                    <p class="timeline-date" id="exp1Date"><i class="fas fa-map-marker-alt"></i> مدينة الملك فهد الطبية، الرياض</p>
+                    <ul>
+                        <li id="exp1Item1">تطوير نظام إلكتروني للتصاريح والإخلاء الطبي</li>
+                        <li id="exp1Item2">تنفيذ عمليات CRUD وربط البيانات</li>
+                        <li id="exp1Item3">تصميم واجهات المستخدم باستخدام ASP.NET</li>
+                        <li id="exp1Item4">تصدير التقارير بصيغ PDF و Excel</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3 id="exp2Title">دعم فني وإداري</h3>
+                    <p class="timeline-date" id="exp2Date"><i class="far fa-calendar-alt"></i> أبريل 2023 - يوليو 2023 | صالون ألوهة</p>
+                    <ul>
+                        <li id="exp2Item1">تقديم الدعم الفني والإداري في المهام اليومية</li>
+                    </ul>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3 id="exp3Title">مساهمة في المشاريع الرقمية</h3>
+                    <p class="timeline-date" id="exp3Date"><i class="fas fa-laptop-house"></i> عمل عن بعد - حديث | شركة سمارت كات</p>
+                    <ul>
+                        <li id="exp3Item1">المساهمة في المشاريع الرقمية</li>
+                        <li id="exp3Item2">تقديم الدعم الفني عن بعد</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="animate__animated animate__fadeIn">
+            <h2><i class="fas fa-project-diagram"></i> <span id="projectsTitle">المشاريع</span></h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-img">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3 id="project1Title">نظام إدارة العائلة</h3>
+                        <ul>
+                            <li id="project1Item1">تقويم موحد للعائلة</li>
+                            <li id="project1Item2">إدارة المهام والمصروفات</li>
+                            <li id="project1Item3">دعم متعدد اللغات</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-img">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3 id="project2Title">نظام تصاريح مدينة الملك فهد الطبية</h3>
+                        <ul>
+                            <li id="project2Item1">تقديم إلكتروني للتصاريح والإخلاء الطبي</li>
+                            <li id="project2Item2">ربط مع قواعد البيانات</li>
+                            <li id="project2Item3">تصدير التقارير</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-img">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3 id="project3Title">تطبيق العائلة (مشروع التخرج)</h3>
+                        <ul>
+                            <li id="project3Item1">تم بناؤه باستخدام Java و Android Studio</li>
+                            <li id="project3Item2">إدارة المهام والمصروفات</li>
+                            <li id="project3Item3">واجهة مستخدم سهلة الاستخدام</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="animate__animated animate__fadeIn">
+            <div class="contact-container">
+                <h2><i class="fas fa-envelope"></i> <span id="contactTitle">تواصل معي</span></h2>
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3 id="emailTitle">البريد الإلكتروني</h3>
+                        <p><a href="mailto:Roaalhameed@gmail.com">Roaalhameed@gmail.com</a></p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h3 id="phoneTitle">الهاتف</h3>
+                        <p><a href="tel:0566439605">0566439605</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="animate__animated animate__fadeInUp">
+        <div class="container">
+            <p id="copyright">&copy; 2023 جميع الحقوق محفوظة لرؤى سلطان آل حامد</p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/RoaaAlhamed" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/roaalhameed" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Translation Data
+        const translations = {
+            en: {
+                name: "Roa Sultan ",
+                title: "Full Stack Web Developer",
+                navAbout: "About",
+                navSkills: "Skills",
+                navExperience: "Experience",
+                navProjects: "Projects",
+                navContact: "Contact",
+                aboutTitle: "About Me",
+                aboutText: "Passionate full stack web developer with skills in front-end and back-end technologies. Gained practical experience through training and academic projects.",
+                skillsTitle: "Technical Skills",
+                programmingTitle: "Programming",
+                webDevTitle: "Web Development",
+                toolsTitle: "Tools & Databases",
+                experienceTitle: "Work Experience",
+                exp1Title: "Intern as Full Stack Developer",
+                exp1Date: "King Fahad Medical City, Riyadh",
+                exp1Item1: "Developed an electronic system for medical permits and clearances",
+                exp1Item2: "Implemented CRUD operations and data binding",
+                exp1Item3: "Designed user interfaces using ASP.NET",
+                exp1Item4: "Exported reports in PDF and Excel formats",
+                exp2Title: "Technical & Administrative Support",
+                exp2Date: "Apr 2023 - Jul 2023 | Aloha Salon",
+                exp2Item1: "Provided daily technical and administrative support",
+                exp3Title: "Contributor to Digital Projects",
+                exp3Date: "Remote Work | Smart Cat Company",
+                exp3Item1: "Contributed to digital projects",
+                exp3Item2: "Provided remote technical support",
+                projectsTitle: "Projects",
+                project1Title: "Family Management System",
+                project1Item1: "Unified family calendar",
+                project1Item2: "Tasks and expenses management",
+                project1Item3: "Multi-language support",
+                project2Title: "King Fahad Medical City Permits System",
+                project2Item1: "Electronic submission of medical permits and clearances",
+                project2Item2: "Database integration",
+                project2Item3: "Reports export",
+                project3Title: "Family App (Graduation Project)",
+                project3Item1: "Built with Java and Android Studio",
+                project3Item2: "Tasks and expenses management",
+                project3Item3: "User-friendly interface",
+                contactTitle: "Contact Me",
+                emailTitle: "Email",
+                phoneTitle: "Phone",
+                copyright: "&copy; 2023 All Rights Reserved by Roa Sultan Al Hamed",
+                downloadText: "Download CV"
+            },
+            ar: {
+                name: "رؤى سلطان ",
+                title: "مطورة ويب متكاملة",
+                navAbout: "عني",
+                navSkills: "المهارات",
+                navExperience: "الخبرة",
+                navProjects: "المشاريع",
+                navContact: "تواصل",
+                aboutTitle: "عني",
+                aboutText: "مطورة ويب متكاملة شغوفة بالتعلم وبناء المشاريع الفعالة. أمتلك مهارات في تقنيات الواجهة الأمامية والخلفية مع خبرة عملية من خلال التدريب والمشاريع الأكاديمية.",
+                skillsTitle: "المهارات التقنية",
+                programmingTitle: "البرمجة",
+                webDevTitle: "تطوير الويب",
+                toolsTitle: "أدوات وقواعد بيانات",
+                experienceTitle: "الخبرة العملية",
+                exp1Title: "متدربة كمطورة ويب متكاملة",
+                exp1Date: "مدينة الملك فهد الطبية، الرياض",
+                exp1Item1: "تطوير نظام إلكتروني للتصاريح والإخلاء الطبي",
+                exp1Item2: "تنفيذ عمليات CRUD وربط البيانات",
+                exp1Item3: "تصميم واجهات المستخدم باستخدام ASP.NET",
+                exp1Item4: "تصدير التقارير بصيغ PDF و Excel",
+                exp2Title: "دعم فني وإداري",
+                exp2Date: "أبريل 2023 - يوليو 2023 | صالون ألوهة",
+                exp2Item1: "تقديم الدعم الفني والإداري في المهام اليومية",
+                exp3Title: "مساهمة في المشاريع الرقمية",
+                exp3Date: "عمل عن بعد - حديث | شركة سمارت كات",
+                exp3Item1: "المساهمة في المشاريع الرقمية",
+                exp3Item2: "تقديم الدعم الفني عن بعد",
+                projectsTitle: "المشاريع",
+                project1Title: "نظام إدارة العائلة",
+                project1Item1: "تقويم موحد للعائلة",
+                project1Item2: "إدارة المهام والمصروفات",
+                project1Item3: "دعم متعدد اللغات",
+                project2Title: "نظام تصاريح مدينة الملك فهد الطبية",
+                project2Item1: "تقديم إلكتروني للتصاريح والإخلاء الطبي",
+                project2Item2: "ربط مع قواعد البيانات",
+                project2Item3: "تصدير التقارير",
+                project3Title: "تطبيق العائلة (مشروع التخرج)",
+                project3Item1: "تم بناؤه باستخدام Java و Android Studio",
+                project3Item2: "إدارة المهام والمصروفات",
+                project3Item3: "واجهة مستخدم سهلة الاستخدام",
+                contactTitle: "تواصل معي",
+                emailTitle: "البريد الإلكتروني",
+                phoneTitle: "الهاتف",
+                copyright: "&copy; 2023 جميع الحقوق محفوظة لرؤى سلطان آل حامد",
+                downloadText: "تنزيل السيرة الذاتية"
+            }
+        };
+
+        // Current Language
+        let currentLang = 'ar';
+        
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+        
+        // Check for saved user preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+        
+        // Language Toggle
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('language', lang);
+            
+            // Update text direction
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            
+            // Update all translatable elements
+            const elements = document.querySelectorAll('[id]');
+            elements.forEach(el => {
+                if (translations[lang][el.id]) {
+                    el.textContent = translations[lang][el.id];
+                }
+            });
+        }
+        
+        // Check for saved language preference
+        if (localStorage.getItem('language')) {
+            setLanguage(localStorage.getItem('language'));
+        }
+        
+        // Language dropdown functionality
+        document.querySelectorAll('.language-menu a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = link.getAttribute('data-lang');
+                setLanguage(lang);
+            });
+        });
+        
+        // Download CV Button
+        document.getElementById("downloadCV").addEventListener("click", function () {
+            const link = document.createElement("a");
+            link.href = "CV_Roaasultan.pdf";
+            link.download = "CV_Roaa_Sultan.pdf";
+            link.click();
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate__fadeInUp');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
