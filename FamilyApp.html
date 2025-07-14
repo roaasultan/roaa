@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عائلتي - نظام إدارة الأسرة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6b8cae;
+            --accent-color: #ff7e5f;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+            --white: #ffffff;
+            --gray: #6c757d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+            border-radius: 50%;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* User Profile */
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 30px 0;
+            min-height: calc(100vh - 150px);
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--accent-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-header h2 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            color: var(--white);
+        }
+
+        .card-icon.blue {
+            background-color: var(--primary-color);
+        }
+
+        .card-icon.green {
+            background-color: var(--success-color);
+        }
+
+        .card-icon.orange {
+            background-color: var(--warning-color);
+        }
+
+        .card-icon.red {
+            background-color: var(--danger-color);
+        }
+
+        .card-icon.purple {
+            background-color: #6f42c1;
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+
+        .card p {
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .card .number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        .card .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: var(--accent-color);
+            color: var(--white);
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .card .btn:hover {
+            background-color: #ff6b4d;
+        }
+
+        /* Family Members */
+        .family-members {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 10px 0;
+            margin-bottom: 30px;
+        }
+
+        .member-card {
+            min-width: 150px;
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .member-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .member-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 10px;
+            border: 3px solid var(--light-color);
+        }
+
+        .member-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .member-role {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+
+        .member-points {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* Tasks */
+        .tasks-container {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .task-list {
+            list-style: none;
+        }
+
+        .task-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .task-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .task-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-grow: 1;
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--success-color);
+        }
+
+        .task-title {
+            font-weight: 500;
+            flex-grow: 1;
+        }
+
+        .task-completed .task-title {
+            text-decoration: line-through;
+            color: var(--gray);
+        }
+
+        .task-assignee {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .task-due {
+            font-size: 0.8rem;
+            color: var(--gray);
+            min-width: 80px;
+            text-align: left;
+        }
+
+        .task-due.overdue {
+            color: var(--danger-color);
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .task-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray);
+            transition: all 0.3s ease;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .task-btn:hover {
+            background-color: #f0f0f0;
+            color: var(--dark-color);
+        }
+
+        .task-btn.edit {
+            color: var(--info-color);
+        }
+
+        .task-btn.delete {
+            color: var(--danger-color);
+        }
+
+        /* Calendar */
+        .calendar-container {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .calendar-month {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .calendar-nav-btn {
+            background-color: var(--light-color);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-nav-btn:hover {
+            background-color: #e9ecef;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 600;
+            padding: 10px;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .calendar-day.empty {
+            background-color: transparent;
+        }
+
+        .calendar-day.today {
+            background-color: #e3f2fd;
+            border: 1px solid var(--primary-color);
+        }
+
+        .day-number {
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .calendar-event {
+            background-color: var(--accent-color);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 5px;
+            border-radius: 3px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Forms */
+        .form-container {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 126, 95, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #ff6b4d;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.3s;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .task-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .task-actions {
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <img src="https://via.placeholder.com/50" alt="شعار عائلتي">
+                <div class="logo-text">
+                    <h1>عائلتي</h1>
+                    <p>نظام إدارة الأسرة والمهام المنزلية</p>
+                </div>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="#" class="active"><i class="fas fa-home"></i> الرئيسية</a></li>
+                    <li><a href="#"><i class="fas fa-calendar-alt"></i> التقويم</a></li>
+                    <li><a href="#"><i class="fas fa-tasks"></i> المهام</a></li>
+                    <li><a href="#"><i class="fas fa-shopping-basket"></i> المشتريات</a></li>
+                    <li><a href="#"><i class="fas fa-chart-pie"></i> التقارير</a></li>
+                </ul>
+            </nav>
+            
+            <div class="user-profile">
+                <img src="https://via.placeholder.com/40" alt="صورة المستخدم">
+                <span class="user-name">أحمد محمد</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Dashboard -->
+            <section id="dashboard">
+                <div class="page-header">
+                    <h2><i class="fas fa-home"></i> لوحة التحكم</h2>
+                    <div>
+                        <button class="btn btn-outline"><i class="fas fa-plus"></i> مهمة جديدة</button>
+                    </div>
+                </div>
+
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-icon blue">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h3>المهام المعلقة</h3>
+                        <div class="number">12</div>
+                        <p>مهمة تحتاج لإنجازها</p>
+                        <button class="btn">عرض المهام</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon green">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3>المكتملة</h3>
+                        <div class="number">24</div>
+                        <p>مهمة تم إنجازها هذا الشهر</p>
+                        <button class="btn">عرض المكتمل</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon orange">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3>المتأخرة</h3>
+                        <div class="number">3</div>
+                        <p>مهمة تجاوزت موعدها</p>
+                        <button class="btn">عرض المتأخر</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon purple">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>النقاط</h3>
+                        <div class="number">1,245</div>
+                        <p>نقطة مكتسبة هذا الشهر</p>
+                        <button class="btn">عرض التفاصيل</button>
+                    </div>
+                </div>
+
+                <!-- Family Members -->
+                <div class="page-header">
+                    <h2><i class="fas fa-users"></i> أفراد العائلة</h2>
+                    <button class="btn"><i class="fas fa-plus"></i> إضافة فرد</button>
+                </div>
+
+                <div class="family-members">
+                    <div class="member-card">
+                        <img src="https://via.placeholder.com/70" alt="صورة العضو" class="member-avatar">
+                        <div class="member-name">أحمد محمد</div>
+                        <div class="member-role">الأب</div>
+                        <div class="member-points">580 نقطة</div>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://via.placeholder.com/70" alt="صورة العضو" class="member-avatar">
+                        <div class="member-name">سارة أحمد</div>
+                        <div class="member-role">الأم</div>
+                        <div class="member-points">620 نقطة</div>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://via.placeholder.com/70" alt="صورة العضو" class="member-avatar">
+                        <div class="member-name">خالد أحمد</div>
+                        <div class="member-role">الابن</div>
+                        <div class="member-points">320 نقطة</div>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://via.placeholder.com/70" alt="صورة العضو" class="member-avatar">
+                        <div class="member-name">نورة أحمد</div>
+                        <div class="member-role">الابنة</div>
+                        <div class="member-points">450 نقطة</div>
+                    </div>
+                    <div class="member-card">
+                        <img src="https://via.placeholder.com/70" alt="صورة العضو" class="member-avatar">
+                        <div class="member-name">فاطمة أحمد</div>
+                        <div class="member-role">الابنة</div>
+                        <div class="member-points">390 نقطة</div>
+                    </div>
+                </div>
+
+                <!-- Recent Tasks -->
+                <div class="page-header">
+                    <h2><i class="fas fa-tasks"></i> أحدث المهام</h2>
+                    <button class="btn"><i class="fas fa-plus"></i> مهمة جديدة</button>
+                </div>
+
+                <div class="tasks-container">
+                    <ul class="task-list">
+                        <li class="task-item">
+                            <div class="task-info">
+                                <input type="checkbox" class="task-checkbox">
+                                <div class="task-title">شراء مستلزمات المنزل</div>
+                                <img src="https://via.placeholder.com/30" alt="المسؤول" class="task-assignee">
+                                <div class="task-due">غداً</div>
+                            </div>
+                            <div class="task-actions">
+                                <button class="task-btn edit"><i class="fas fa-edit"></i></button>
+                                <button class="task-btn delete"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </li>
+                        <li class="task-item task-completed">
+                            <div class="task-info">
+                                <input type="checkbox" class="task-checkbox" checked>
+                                <div class="task-title">تنظيف غرفة المعيشة</div>
+                                <img src="https://via.placeholder.com/30" alt="المسؤول" class="task-assignee">
+                                <div class="task-due">بالأمس</div>
+                            </div>
+                            <div class="task-actions">
+                                <button class="task-btn edit"><i class="fas fa-edit"></i></button>
+                                <button class="task-btn delete"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </li>
+                        <li class="task-item">
+                            <div class="task-info">
+                                <input type="checkbox" class="task-checkbox">
+                                <div class="task-title">إصلاح الحوض في المطبخ</div>
+                                <img src="https://via.placeholder.com/30" alt="المسؤول" class="task-assignee">
+                                <div class="task-due overdue">متأخر يومين</div>
+                            </div>
+                            <div class="task-actions">
+                                <button class="task-btn edit"><i class="fas fa-edit"></i></button>
+                                <button class="task-btn delete"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </li>
+                        <li class="task-item">
+                            <div class="task-info">
+                                <input type="checkbox" class="task-checkbox">
+                                <div class="task-title">مساعدة خالد في واجباته</div>
+                                <img src="https://via.placeholder.com/30" alt="المسؤول" class="task-assignee">
+                                <div class="task-due">اليوم</div>
+                            </div>
+                            <div class="task-actions">
+                                <button class="task-btn edit"><i class="fas fa-edit"></i></button>
+                                <button class="task-btn delete"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Calendar -->
+                <div class="page-header">
+                    <h2><i class="fas fa-calendar-alt"></i> تقويم العائلة</h2>
+                    <button class="btn"><i class="fas fa-plus"></i> حدث جديد</button>
+                </div>
+
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <div class="calendar-month">أكتوبر 2023</div>
+                        <div class="calendar-nav">
+                            <button class="calendar-nav-btn"><i class="fas fa-chevron-right"></i></button>
+                            <button class="calendar-nav-btn"><i class="fas fa-chevron-left"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-grid">
+                        <div class="calendar-day-header">الأحد</div>
+                        <div class="calendar-day-header">السبت</div>
+                        <div class="calendar-day-header">الجمعة</div>
+                        <div class="calendar-day-header">الخميس</div>
+                        <div class="calendar-day-header">الأربعاء</div>
+                        <div class="calendar-day-header">الثلاثاء</div>
+                        <div class="calendar-day-header">الإثنين</div>
+                        
+                        <div class="calendar-day empty"></div>
+                        <div class="calendar-day empty"></div>
+                        <div class="calendar-day empty"></div>
+                        <div class="calendar-day empty"></div>
+                        <div class="calendar-day">
+                            <div class="day-number">1</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">2</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">3</div>
+                        </div>
+                        
+                        <div class="calendar-day">
+                            <div class="day-number">4</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">5</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">6</div>
+                            <div class="calendar-event">حفل ميلاد نورة</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">7</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">8</div>
+                            <div class="calendar-event">موعد طبيب</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">9</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">10</div>
+                        </div>
+                        
+                        <div class="calendar-day">
+                            <div class="day-number">11</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">12</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">13</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">14</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">15</div>
+                            <div class="calendar-event">اجتماع المدرسة</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">16</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">17</div>
+                        </div>
+                        
+                        <div class="calendar-day">
+                            <div class="day-number">18</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">19</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">20</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">21</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">22</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">23</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">24</div>
+                        </div>
+                        
+                        <div class="calendar-day">
+                            <div class="day-number">25</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">26</div>
+                        </div>
+                        <div class="calendar-day today">
+                            <div class="day-number">27</div>
+                            <div class="calendar-event">رحلة عائلية</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">28</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">29</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">30</div>
+                        </div>
+                        <div class="calendar-day">
+                            <div class="day-number">31</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Add Task Modal -->
+    <div class="modal" id="taskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-plus"></i> مهمة جديدة</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="taskForm">
+                    <div class="form-group">
+                        <label for="taskTitle">عنوان المهمة</label>
+                        <input type="text" id="taskTitle" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="taskDescription">وصف المهمة</label>
+                        <textarea id="taskDescription" class="form-control" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="taskDueDate">تاريخ التسليم</label>
+                            <input type="date" id="taskDueDate" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="taskAssignee">المسؤول</label>
+                            <select id="taskAssignee" class="form-control" required>
+                                <option value="">اختر المسؤول</option>
+                                <option value="1">أحمد محمد</option>
+                                <option value="2">سارة أحمد</option>
+                                <option value="3">خالد أحمد</option>
+                                <option value="4">نورة أحمد</option>
+                                <option value="5">فاطمة أحمد</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="taskPriority">الأولوية</label>
+                        <select id="taskPriority" class="form-control">
+                            <option value="low">منخفضة</option>
+                            <option value="medium" selected>متوسطة</option>
+                            <option value="high">عالية</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="taskPoints">النقاط</label>
+                        <input type="number" id="taskPoints" class="form-control" min="1" value="10">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline">إلغاء</button>
+                <button class="btn btn-success">حفظ المهمة</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal Handling
+            const taskModal = document.getElementById('taskModal');
+            const modalClose = document.querySelector('.modal-close');
+            const modalCancel = document.querySelector('.modal-footer .btn-outline');
+            
+            // Show modal when "New Task" button is clicked
+            document.querySelectorAll('.page-header .btn, .card .btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if(this.textContent.includes('مهمة') || this.textContent.includes('جديد')) {
+                        taskModal.style.display = 'flex';
+                    }
+                });
+            });
+            
+            // Close modal
+            function closeModal() {
+                taskModal.style.display = 'none';
+            }
+            
+            modalClose.addEventListener('click', closeModal);
+            modalCancel.addEventListener('click', closeModal);
+            
+            // Close modal when clicking outside
+            taskModal.addEventListener('click', function(e) {
+                if(e.target === taskModal) {
+                    closeModal();
+                }
+            });
+            
+            // Task completion toggle
+            document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const taskItem = this.closest('.task-item');
+                    if(this.checked) {
+                        taskItem.classList.add('task-completed');
+                    } else {
+                        taskItem.classList.remove('task-completed');
+                    }
+                });
+            });
+            
+            // Calendar navigation
+            const monthDisplay = document.querySelector('.calendar-month');
+            const prevMonthBtn = document.querySelector('.calendar-nav-btn:last-child');
+            const nextMonthBtn = document.querySelector('.calendar-nav-btn:first-child');
+            
+            let currentDate = new Date();
+            
+            function updateCalendar() {
+                const options = { month: 'long', year: 'numeric' };
+                monthDisplay.textContent = currentDate.toLocaleDateString('ar-EG', options);
+            }
+            
+                        prevMonthBtn.addEventListener('click', function() {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                updateCalendar();
+            });
+            
+            nextMonthBtn.addEventListener('click', function() {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                updateCalendar();
+            });
+            
+            // Initialize calendar
+            updateCalendar();
+            
+            // Task actions
+            document.querySelectorAll('.task-btn.edit').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const taskItem = this.closest('.task-item');
+                    const taskTitle = taskItem.querySelector('.task-title').textContent;
+                    
+                    // Fill modal with task data
+                    document.getElementById('taskTitle').value = taskTitle;
+                    document.getElementById('taskDescription').value = "وصف المهمة هنا...";
+                    
+                    // Change modal title
+                    document.querySelector('.modal-title').innerHTML = '<i class="fas fa-edit"></i> تعديل المهمة';
+                    
+                    // Show modal
+                    taskModal.style.display = 'flex';
+                });
+            });
+            
+            document.querySelectorAll('.task-btn.delete').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if(confirm('هل أنت متأكد من حذف هذه المهمة؟')) {
+                        this.closest('.task-item').remove();
+                    }
+                });
+            });
+            
+            // Form submission
+            document.querySelector('.modal-footer .btn-success').addEventListener('click', function() {
+                const form = document.getElementById('taskForm');
+                if(form.checkValidity()) {
+                    alert('تم حفظ المهمة بنجاح!');
+                    closeModal();
+                    form.reset();
+                } else {
+                    form.reportValidity();
+                }
+            });
+            
+            // Make family members scrollable on touch devices
+            const familyMembers = document.querySelector('.family-members');
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            
+            familyMembers.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - familyMembers.offsetLeft;
+                scrollLeft = familyMembers.scrollLeft;
+            });
+            
+            familyMembers.addEventListener('mouseleave', () => {
+                isDown = false;
+            });
+            
+            familyMembers.addEventListener('mouseup', () => {
+                isDown = false;
+            });
+            
+            familyMembers.addEventListener('mousemove', (e) => {
+                if(!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - familyMembers.offsetLeft;
+                const walk = (x - startX) * 2;
+                familyMembers.scrollLeft = scrollLeft - walk;
+            });
+        });
+    </script>
+</body>
+</html>
