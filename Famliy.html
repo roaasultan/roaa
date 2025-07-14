@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة العائلة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #858796;
+            --success-color: #1cc88a;
+            --info-color: #36b9cc;
+            --warning-color: #f6c23e;
+            --danger-color: #e74a3b;
+            --light-color: #f8f9fc;
+            --dark-color: #5a5c69;
+            --family-color: #6f42c1;
+        }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fc;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--family-color);
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8) !important;
+            font-weight: 600;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(180deg, var(--family-color) 10%, #5936b2 100%);
+            min-height: calc(100vh - 56px);
+            transition: all 0.3s;
+        }
+
+        .sidebar .nav-item .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            font-weight: 600;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar .nav-item .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar .nav-item .nav-link.active {
+            color: white;
+            border-left: 3px solid var(--warning-color);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar .nav-item .nav-link i {
+            margin-left: 0.5rem;
+        }
+
+        /* Cards */
+        .card {
+            border: none;
+            border-radius: 0.35rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+        }
+
+        .card-header {
+            background-color: #f8f9fc;
+            border-bottom: 1px solid #e3e6f0;
+            font-weight: 700;
+        }
+
+        /* Calendar */
+        .fc-event {
+            cursor: pointer;
+        }
+
+        .fc-daygrid-event {
+            border-radius: 0.25rem;
+            font-size: 0.85rem;
+            padding: 0.1rem 0.25rem;
+        }
+
+        /* Tasks */
+        .task-item {
+            border-left: 3px solid;
+            margin-bottom: 0.5rem;
+        }
+
+        .task-item-primary {
+            border-left-color: var(--primary-color);
+        }
+
+        .task-item-success {
+            border-left-color: var(--success-color);
+        }
+
+        .task-item-warning {
+            border-left-color: var(--warning-color);
+        }
+
+        .task-item-danger {
+            border-left-color: var(--danger-color);
+        }
+
+        /* Expenses */
+        .expense-category {
+            font-weight: 600;
+        }
+
+        .expense-amount {
+            font-weight: 700;
+        }
+
+        /* Language Switch */
+        .language-switch {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                min-height: auto;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-home me-2"></i>
+                <span lang="ar">نظام إدارة العائلة</span>
+                <span lang="en">Family Management System</span>
+            </a>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user me-1"></i>
+                        <span lang="ar">مرحباً، أحمد</span>
+                        <span lang="en">Welcome, Ahmed</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">
+                            <i class="fas fa-user me-1"></i>
+                            <span lang="ar">الملف الشخصي</span>
+                            <span lang="en">Profile</span>
+                        </a></li>
+                        <li><a class="dropdown-item" href="#">
+                            <i class="fas fa-cog me-1"></i>
+                            <span lang="ar">الإعدادات</span>
+                            <span lang="en">Settings</span>
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">
+                            <i class="fas fa-sign-out-alt me-1"></i>
+                            <span lang="ar">تسجيل الخروج</span>
+                            <span lang="en">Logout</span>
+                        </a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#dashboard">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span lang="ar">لوحة التحكم</span>
+                                <span lang="en">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#calendar">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span lang="ar">التقويم</span>
+                                <span lang="en">Calendar</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#tasks">
+                                <i class="fas fa-tasks"></i>
+                                <span lang="ar">المهام</span>
+                                <span lang="en">Tasks</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#expenses">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <span lang="ar">المصروفات</span>
+                                <span lang="en">Expenses</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#members">
+                                <i class="fas fa-users"></i>
+                                <span lang="ar">أفراد العائلة</span>
+                                <span lang="en">Family Members</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#settings">
+                                <i class="fas fa-cog"></i>
+                                <span lang="ar">الإعدادات</span>
+                                <span lang="en">Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+                <!-- Dashboard -->
+                <div class="fade-in" id="dashboard">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">
+                            <span lang="ar">لوحة التحكم</span>
+                            <span lang="en">Dashboard</span>
+                        </h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">
+                                    <span lang="ar">اليوم</span>
+                                    <span lang="en">Today</span>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">
+                                    <span lang="ar">هذا الأسبوع</span>
+                                    <span lang="en">This Week</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="row mb-4">
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col me-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                <span lang="ar">الأحداث القادمة</span>
+                                                <span lang="en">Upcoming Events</span>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col me-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                <span lang="ar">المهام المكتملة</span>
+                                                <span lang="en">Completed Tasks</span>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">12</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col me-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                <span lang="ar">المهام المعلقة</span>
+                                                <span lang="en">Pending Tasks</span>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">7</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col me-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                <span lang="ar">المصروفات الشهرية</span>
+                                                <span lang="en">Monthly Expenses</span>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$2,450</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Events & Tasks -->
+                    <div class="row">
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">
+                                        <span lang="ar">الأحداث القادمة</span>
+                                        <span lang="en">Upcoming Events</span>
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group">
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">عيد ميلاد سارة</h6>
+                                                <small class="text-muted">3 أيام</small>
+                                            </div>
+                                            <p class="mb-1">15 أكتوبر 2023</p>
+                                            <small class="text-muted"><i class="fas fa-gift me-1"></i> مناسبة عائلية</small>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">موعد طبيب</h6>
+                                                <small class="text-muted">5 أيام</small>
+                                            </div>
+                                            <p class="mb-1">17 أكتوبر 2023 - 10:00 ص</p>
+                                            <small class="text-muted"><i class="fas fa-hospital me-1"></i> صحة</small>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">اجتماع المدرسة</h6>
+                                                <small class="text-muted">أسبوع</small>
+                                            </div>
+                                            <p class="mb-1">20 أكتوبر 2023 - 2:00 م</p>
+                                            <small class="text-muted"><i class="fas fa-school me-1"></i> تعليم</small>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-success">
+                                        <span lang="ar">المهام الأخيرة</span>
+                                        <span lang="en">Recent Tasks</span>
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group">
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">دفع فاتورة الكهرباء</h6>
+                                                <span class="badge bg-warning text-dark">
+                                                    <span lang="ar">قيد الانتظار</span>
+                                                    <span lang="en">Pending</span>
+                                                </span>
+                                            </div>
+                                            <small class="text-muted"><i class="fas fa-user me-1"></i> أحمد</small>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">شراء مستلزمات المدرسة</h6>
+                                                <span class="badge bg-success">
+                                                    <span lang="ar">مكتمل</span>
+                                                    <span lang="en">Completed</span>
+                                                </span>
+                                            </div>
+                                            <small class="text-muted"><i class="fas fa-user me-1"></i> فاطمة</small>
+                                        </a>
+                                        <a href="#" class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">حجز تذاكر السفر</h6>
+                                                <span class="badge bg-danger">
+                                                    <span lang="ar">متأخر</span>
+                                                    <span lang="en">Overdue</span>
+                                                </span>
+                                            </div>
+                                            <small class="text-muted"><i class="fas fa-user me-1"></i> محمد</small>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar -->
+                <div class="fade-in d-none" id="calendar">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">
+                            <span lang="ar">التقويم العائلي</span>
+                            <span lang="en">Family Calendar</span>
+                        </h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <div class="btn-group me-2">
+                                <button class="btn btn-sm btn-outline-secondary" id="calendar-prev">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-secondary" id="calendar-next">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                            </div>
+                            <button class="btn btn-sm btn-primary" id="add-event-btn">
+                                <i class="fas fa-plus me-1"></i>
+                                <span lang="ar">إضافة حدث</span>
+                                <span lang="en">Add Event</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
+                            <div id="family-calendar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tasks -->
+                <div class="fade-in d-none" id="tasks">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">
+                            <span lang="ar">إدارة المهام</span>
+                            <span lang="en">Tasks Management</span>
+                        </h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addTaskModal">
+                                <i class="fas fa-plus me-1"></i>
+                                <span lang="ar">إضافة مهمة</span>
+                                <span lang="en">Add Task</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <ul class="nav nav-tabs card-header-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-bs-toggle="tab" href="#all-tasks">
+                                        <span lang="ar">جميع المهام</span>
+                                        <span lang="en">All Tasks</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#pending-tasks">
+                                        <span lang="ar">قيد الانتظار</span>
+                                        <span lang="en">Pending</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#completed-tasks">
+                                        <span lang="ar">مكتملة</span>
+                                        <span lang="en">Completed</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="all-tasks">
+                                    <div class="list-group">
+                                        <div class="list-group-item task-item task-item-primary">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">دفع فاتورة الكهرباء</h6>
+                                                <small class="text-muted">15 أكتوبر 2023</small>
+                                            </div>
+                                            <p class="mb-1">فاتورة شهر سبتمبر - المبلغ: 250 ريال</p>
+                                            <small><i class="fas fa-user me-1"></i> أحمد - <span class="badge bg-warning text-dark">
+                                                <span lang="ar">قيد الانتظار</span>
+                                                <span lang="en">Pending</span>
+                                            </span></small>
+                                        </div>
+                                        <div class="list-group-item task-item task-item-success">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">شراء مستلزمات المدرسة</h6>
+                                                <small class="text-muted">10 أكتوبر 2023</small>
+                                            </div>
+                                            <p class="mb-1">كتب وملابس مدرسية للأطفال</p>
+                                            <small><i class="fas fa-user me-1"></i> فاطمة - <span class="badge bg-success">
+                                                <span lang="ar">مكتمل</span>
+                                                <span lang="en">Completed</span>
+                                            </span></small>
+                                        </div>
+                                        <div class="list-group-item task-item task-item-danger">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">حجز تذاكر السفر</h6>
+                                                <small class="text-muted">5 أكتوبر 2023</small>
+                                            </div>
+                                            <p class="mb-1">رحلة العائلة إلى جدة</p>
+                                            <small><i class="fas fa-user me-1"></i> محمد - <span class="badge bg-danger">
+                                                <span lang="ar">متأخر</span>
+                                                <span lang="en">Overdue</span>
+                                            </span></small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pending-tasks">
+                                    <div class="list-group">
+                                        <div class="list-group-item task-item task-item-primary">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">دفع فاتورة الكهرباء</h6>
+                                                <small class="text-muted">15 أكتوبر 2023</small>
+                                            </div>
+                                            <p class="mb-1">فاتورة شهر سبتمبر - المبلغ: 250 ريال</p>
+                                            <small><i class="fas fa-user me-1"></i> أحمد - <span class="badge bg-warning text-dark">
+                                                <span lang="ar">قيد الانتظار</span>
+                                                <span lang="en">Pending</span>
+                                            </span></small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="completed-tasks">
+                                    <div class="list-group">
+                                        <div class="list-group-item task-item task-item-success">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">شراء مستلزمات المدرسة</h6>
+                                                <small class="text-muted">10 أكتوبر 2023</small>
+                                            </div>
+                                            <p class="mb-1">كتب وملابس مدرسية للأطفال</p>
+                                            <small><i class="fas fa-user me-1"></i> فاطمة - <span class="badge bg-success">
+                                                <span lang="ar">مكتمل</span>
+                                                <span lang="en">Completed</span>
+                                            </span></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expenses -->
+                <div class="fade-in d-none" id="expenses">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">
+                            <span lang="ar">إدارة المصروفات</span>
+                            <span lang="en">Expenses Management</span>
+                        </h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addExpenseModal">
+                                <i class="fas fa-plus me-1"></i>
+                                <span lang="ar">إضافة مصروف</span>
+                                <span lang="en">Add Expense</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">
+                                        <span lang="ar">إجمالي المصروفات</span>
+                                        <span lang="en">Total Expenses</span>
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="text-center">4,750 ريال</h4>
+                                    <div class="mt-4 text-center small">
+                                        <span class="me-2">
+                                            <i class="fas fa-circle text-primary"></i> منزل
+                                        </span>
+                                        <span class="me-2">
+                                            <i class="fas fa-circle text-success"></i> تعليم
+                                        </span>
+                                        <span class="me-2">
+                                            <i class="fas fa-circle text-info"></i> صحة
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">
+                                        <span lang="ar">المصروفات حسب الفئة</span>
+                                        <span lang="en">Expenses by Category</span>
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-pie pt-4 pb-2">
+                                        <canvas id="expensePieChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">
+                                <span lang="ar">سجل المصروفات</span>
+                                <span lang="en">Expenses Record</span>
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <span lang="ar">التاريخ</span>
+                                                <span lang="en">Date</span>
+                                            </th>
+                                            <th>
+                                                <span lang="ar">الفئة</span>
+                                                <span lang="en">Category</span>
+                                            </th>
+                                            <th>
+                                                <span lang="ar">الوصف</span>
+                                                <span lang="en">Description</span>
+                                            </th>
+                                            <th>
+                                                <span lang="ar">المبلغ</span>
+                                                <span lang="en">Amount</span>
+                                            </th>
+                                            <th>
+                                                <span lang="ar">أضيف بواسطة</span>
+                                                <span lang="en">Added By</span>
+                                            </th>
+                                            <th>
+                                                <span lang="ar">خيارات</span>
+                                                <span lang="en">Options</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>10/10/2023</td>
+                                            <td class="expense-category text-primary">منزل</td>
+                                            <td>فاتورة الكهرباء</td>
+                                            <td class="expense-amount">250 ريال</td>
+                                            <td>أحمد</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>08/10/2023</td>
+                                            <td class="expense-category text-success">تعليم</td>
+                                            <td>مستلزمات مدرسية</td>
+                                            <td class="expense-amount">450 ريال</td>
+                                            <td>فاطمة</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>05/10/2023</td>
+                                            <td class="expense-category text-info">صحة</td>
+                                            <td>فحوصات طبية</td>
+                                            <td class="expense-amount">350 ريال</td>
+                                            <td>محمد</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Family Members -->
+                <div class="fade-in d-none" id="members">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">
+                            <span lang="ar">أفراد العائلة</span>
+                            <span lang="en">Family Members</span>
+                        </h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addMemberModal">
+                                <i class="fas fa-plus me-1"></i>
+                                <span lang="ar">إضافة فرد</span>
+                                <span lang="en">Add Member</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col me-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                <span lang="ar">الأب</span>
+                                                <span lang="en">Father</span>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">أحمد محمد</div>
+                                            <div class="mt-2 text-muted small">ahmed@example.com</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-male fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col me-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                <span lang="ar">الأم</span>
+                                                <span lang="en">Mother</span>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">فاطمة عبدالله</div>
+                                            <div class="mt-2 text-muted small">fatima@example.com</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-female fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col me-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                <span lang="ar">الابن</span>
+                                                <span lang="en">Son</span>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">محمد أحمد</div>
+                                            <div class="mt-2 text-muted small">mohamed@example.com</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-child fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col me-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                <span lang="ar">الابنة</span>
+                                                <span lang="en">Daughter</span>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">سارة أحمد</div>
+                                            <div class="mt-2 text-muted small">sara@example.com</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-child fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">
+                                <span lang="ar">معلومات العائلة</span>
+                                <span lang="en">Family Information</span>
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <span lang="ar">الاسم</span>
+                                                <span lang="en">Name</span>
+                                            </th>
+                                            <th>
+                                                <span lang="ar">الصفة</span>
+                                                <span lang="en">Role</span>
+                                            </th>
+                                            <th>
+                                                <span lang="ar">تاريخ الميلاد</span>
+                                                <span lang="en">Birth Date</span>
+                                            </th>
+                                            <th>
+                                                <span lang="ar">البريد الإلكتروني</span>
+                                                <span lang="en">Email</span>
+                                            </th>
+                                            <th>
+                                                <span lang="ar">الهاتف</span>
+                                                <span lang="en">Phone</span>
+                                            </th>
+                                            <th>
+                                                <span lang="ar">خيارات</span>
+                                                <span lang="en">Options</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>أحمد محمد</td>
+                                            <td>أب</td>
+                                            <td>15/05/1980</td>
+                                            <td>ahmed@example.com</td>
+                                            <td>0501234567</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>فاطمة عبدالله</td>
+                                            <td>أم</td>
+                                            <td>20/08/1985</td>
+                                            <td>fatima@example.com</td>
+                                            <td>0507654321</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>محمد أحمد</td>
+                                            <td>ابن</td>
+                                            <td>10/03/2010</td>
+                                            <td>mohamed@example.com</td>
+                                            <td>0501112233</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>سارة أحمد</td>
+                                            <td>ابنة</td>
+                                            <td>05/07/2015</td>
+                                            <td>sara@example.com</td>
+                                            <td>0504445566</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings -->
+                <div class="fade-in d-none" id="settings">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">
+                            <span lang="ar">إعدادات النظام</span>
+                            <span lang="en">System Settings</span>
+                        </h1>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">
+                                        <span lang="ar">الإعدادات العامة</span>
+                                        <span lang="en">General Settings</span>
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="mb-3">
+                                            <label class="form-label">
+                                                <span lang="ar">اسم العائلة</span>
+                                                <span lang="en">Family Name</span>
+                                            </label>
+                                            <input type="text" class="form-control" value="عائلة محمد">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">
+                                                <span lang="ar">لغة النظام</span>
+                                                <span lang="en">System Language</span>
+                                            </label>
+                                            <select class="form-select">
+                                                <option value="ar">العربية</option>
+                                                <option value="en">English</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">
+                                                <span lang="ar">العملة</span>
+                                                <span lang="en">Currency</span>
+                                            </label>
+                                            <select class="form-select">
+                                                <option>ريال سعودي (ر.س)</option>
+                                                <option>دولار أمريكي ($)</option>
+                                                <option>يورو (€)</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <span lang="ar">حفظ التغييرات</span>
+                                            <span lang="en">Save Changes</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">
+                                        <span lang="ar">إعدادات التنبيهات</span>
+                                        <span lang="en">Notification Settings</span>
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" class="form-check-input" id="eventReminders" checked>
+                                            <label class="form-check-label" for="eventReminders">
+                                                <span lang="ar">تنبيهات الأحداث القادمة</span>
+                                                <span lang="en">Upcoming Events Reminders</span>
+                                            </label>
+                                        </div>
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" class="form-check-input" id="taskReminders" checked>
+                                            <label class="form-check-label" for="taskReminders">
+                                                <span lang="ar">تنبيهات المهام المتأخرة</span>
+                                                <span lang="en">Overdue Tasks Reminders</span>
+                                            </label>
+                                        </div>
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" class="form-check-input" id="expenseAlerts" checked>
+                                            <label class="form-check-label" for="expenseAlerts">
+                                                <span lang="ar">تنبيهات المصروفات</span>
+                                                <span lang="en">Expense Alerts</span>
+                                            </label>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">
+                                                <span lang="ar">طريقة الاستلام</span>
+                                                <span lang="en">Notification Method</span>
+                                            </label>
+                                            <select class="form-select">
+                                                <option>
+                                                    <span lang="ar">بريد إلكتروني</span>
+                                                    <span lang="en">Email</span>
+                                                </option>
+                                                <option>
+                                                    <span lang="ar">رسالة نصية</span>
+                                                    <span lang="en">SMS</span>
+                                                </option>
+                                                <option>
+                                                    <span lang="ar">كليهما</span>
+                                                    <span lang="en">Both</span>
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <span lang="ar">حفظ التغييرات</span>
+                                            <span lang="en">Save Changes</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div class="modal fade" id="addTaskModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span lang="ar">إضافة مهمة جديدة</span>
+                        <span lang="en">Add New Task</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <span lang="ar">عنوان المهمة</span>
+                                <span lang="en">Task Title</span>
+                            </label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <span lang="ar">الوصف</span>
+                                <span lang="en">Description</span>
+                            </label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    <span lang="ar">تاريخ الاستحقاق</span>
+                                    <span lang="en">Due Date</span>
+                                </label>
+                                <input type="date" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    <span lang="ar">المسؤول</span>
+                                    <span lang="en">Assigned To</span>
+                                </label>
+                                <select class="form-select" required>
+                                    <option value="">اختر فرد العائلة</option>
+                                    <option>أحمد محمد</option>
+                                    <option>فاطمة عبدالله</option>
+                                    <option>محمد أحمد</option>
+                                    <option>سارة أحمد</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <span lang="ar">الأولوية</span>
+                                <span lang="en">Priority</span>
+                            </label>
+                            <select class="form-select" required>
+                                <option value="low">
+                                    <span lang="ar">منخفضة</span>
+                                    <span lang="en">Low</span>
+                                </option>
+                                <option value="medium" selected>
+                                    <span lang="ar">متوسطة</span>
+                                    <span lang="en">Medium</span>
+                                </option>
+                                <option value="high">
+                                    <span lang="ar">عالية</span>
+                                    <span lang="en">High</span>
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <span lang="ar">الفئة</span>
+                                <span lang="en">Category</span>
+                            </label>
+                            <select class="form-select" required>
+                                <option value="home">
+                                    <span lang="ar">منزل</span>
+                                    <span lang="en">Home</span>
+                                </option>
+                                <option value="education">
+                                    <span lang="ar">تعليم</span>
+                                    <span lang="en">Education</span>
+                                </option>
+                                <option value="health">
+                                    <span lang="ar">صحة</span>
+                                    <span lang="en">Health</span>
+                                </option>
+                                <option value="shopping">
+                                    <span lang="ar">تسوق</span>
+                                    <span lang="en">Shopping</span>
+                                </option>
+                                <option value="other">
+                                    <span lang="ar">أخرى</span>
+                                    <span lang="en">Other</span>
+                                </option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <span lang="ar">إلغاء</span>
+                        <span lang="en">Cancel</span>
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        <span lang="ar">حفظ المهمة</span>
+                        <span lang="en">Save Task</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Expense Modal -->
+    <div class="modal fade" id="addExpenseModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span lang="ar">إضافة مصروف جديد</span>
+                        <span lang="en">Add New Expense</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <span lang="ar">المبلغ</span>
+                                <span lang="en">Amount</span>
+                            </label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" required>
+                                <span class="input-group-text">ر.س</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <span lang="ar">التاريخ</span>
+                                <span lang="en">Date</span>
+                            </label>
+                            <input type="date" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <span lang="ar">الفئة</span>
+                                <span lang="en">Category</span>
+                            </label>
+                            <select class="form-select" required>
+                                <option value="home">
+                                    <span lang="ar">منزل</span>
+                                    <span lang="en">Home</span>
+                                </option>
+                                <option value="education">
+                                    <span lang="ar">تعليم</span>
+                                    <span lang="en">Education</span>
+                                </option>
+                                <option value="health">
+                                    <span lang="ar">صحة</span>
+                                    <span lang="en">Health</span>
+                                </option>
+                                <option value="shopping">
+                                    <span lang="ar">تسوق</span>
+                                    <span lang="en">Shopping</span>
+                                </option>
+                                <option value="other">
+                                    <span lang="ar">أخرى</span>
+                                    <span lang="en">Other</span>
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <span lang="ar">الوصف</span>
+                                <span lang="en">Description</span>
+                            </label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <span lang="ar">أضيف بواسطة</span>
+                                <span lang="en">Added By</span>
+                            </label>
+                            <select class="form-select" required>
+                                <option>أحمد محمد</option>
+                                <option>فاطمة عبدالله</option>
+                                <option>محمد أحمد</option>
+                                <option>سارة أحمد</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <span lang="ar">إلغاء</span>
+                        <span lang="en">Cancel</span>
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        <span lang="ar">حفظ المصروف</span>
+                        <span lang="en">Save Expense</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Member Modal -->
+    <div class="modal fade" id="addMemberModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span lang="ar">إضافة فرد جديد للعائلة</span>
+                        <span lang="en">Add New Family Member</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <span lang="ar">الاسم الكامل</span>
+                                <span lang="en">Full Name</span>
+                            </label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <span lang="ar">الصفة في العائلة</span>
+                                <span lang="en">Family Role</span>
+                            </label>
+                            <select class="form-select" required>
+                                <option value="father">
+                                    <span lang="ar">أب</span>
+                                    <span lang="en">Father</span>
+                                </option>
+                                <option value="mother">
+                                    <span lang="ar">أم</span>
+                                    <span lang="en">Mother</span>
+                                </option>
+                                <option value="son">
+                                    <span lang="ar">ابن</span>
+                                    <span lang="en">Son</span>
+                                </option>
+                                <option value="daughter">
+                                    <span lang="ar">ابنة</span>
+                                    <span lang="en">Daughter</span>
+                                </option>
+                                <option value="other">
+                                    <span lang="ar">أخرى</span>
+                                    <span lang="en">Other</span>
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <span lang="ar">تاريخ الميلاد</span>
+                                <span lang="en">Birth Date</span>
+                            </label>
+                            <input type="date" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <span lang="ar">البريد الإلكتروني</span>
+                                <span lang="en">Email</span>
+                            </label>
+                            <input type="email" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <span lang="ar">رقم الهاتف</span>
+                                <span lang="en">Phone Number</span>
+                            </label>
+                            <input type="tel" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <span lang="ar">صورة</span>
+                                <span lang="en">Photo</span>
+                            </label>
+                            <input type="file" class="form-control">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <span lang="ar">إلغاء</span>
+                        <span lang="en">Cancel</span>
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        <span lang="ar">حفظ العضو</span>
+                        <span lang="en">Save Member</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Language Switch Button -->
+    <div class="language-switch">
+        <button id="languageToggle" class="btn btn-primary rounded-circle" style="width: 50px; height: 50px;">
+            <i class="fas fa-language"></i>
+        </button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Initialize Calendar
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('family-calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                events: [
+                    {
+                        title: 'عيد ميلاد سارة',
+                        start: '2023-10-15',
+                        color: '#e74a3b'
+                    },
+                    {
+                        title: 'موعد طبيب',
+                        start: '2023-10-17T10:00:00',
+                        color: '#36b9cc'
+                    },
+                    {
+                        title: 'اجتماع المدرسة',
+                        start: '2023-10-20T14:00:00',
+                        color: '#1cc88a'
+                    },
+                    {
+                        title: 'دفع فاتورة الكهرباء',
+                        start: '2023-10-25',
+                        color: '#f6c23e'
+                    }
+                ],
+                locale: 'ar'
+            });
+            calendar.render();
+
+            // Calendar navigation
+            document.getElementById('calendar-prev').addEventListener('click', function() {
+                calendar.prev();
+            });
+            document.getElementById('calendar-next').addEventListener('click', function() {
+                calendar.next();
+            });
+
+            // Initialize Pie Chart
+            var ctx = document.getElementById('expensePieChart').getContext('2d');
+            var expensePieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['منزل', 'تعليم', 'صحة', 'تسوق', 'أخرى'],
+                    datasets: [{
+                        data: [35, 25, 20, 15, 5],
+                        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'],
+                        hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#dda20a', '#be2617'],
+                        hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    }],
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                    },
+                },
+            });
+
+            // Navigation between sections
+            const navLinks = document.querySelectorAll('.sidebar .nav-link');
+            const sections = document.querySelectorAll('main > div');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links and sections
+                    navLinks.forEach(navLink => navLink.classList.remove('active'));
+                    sections.forEach(section => section.classList.add('d-none'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.remove('d-none');
+                });
+            });
+
+            // Language Toggle
+            const languageToggle = document.getElementById('languageToggle');
+            const arabicElements = document.querySelectorAll('[lang="ar"]');
+            const englishElements = document.querySelectorAll('[lang="en"]');
+            let currentLang = 'ar';
+
+            // Initially show Arabic and hide English
+            arabicElements.forEach(el => el.classList.add('active'));
+            englishElements.forEach(el => el.classList.remove('active'));
+
+            languageToggle.addEventListener('click', function() {
+                if (currentLang === 'ar') {
+                    // Switch to English
+                    arabicElements.forEach(el => el.classList.remove('active'));
+                    englishElements.forEach(el => el.classList.add('active'));
+                    document.documentElement.lang = 'en';
+                    document.documentElement.dir = 'ltr';
+                    calendar.setOption('locale', 'en');
+                    currentLang = 'en';
+                } else {
+                    // Switch to Arabic
+                    arabicElements.forEach(el => el.classList.add('active'));
+                    englishElements.forEach(el => el.classList.remove('active'));
+                    document.documentElement.lang = 'ar';
+                    document.documentElement.dir = 'rtl';
+                    calendar.setOption('locale', 'ar');
+                    currentLang = 'ar';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
