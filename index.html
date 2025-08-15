@@ -9,20 +9,24 @@
         /* متغيرات الألوان */
         :root {
             /* الوضع النهاري */
-            --day-bg: #F9F5F6;
-            --day-section: #F8E8EE;
-            --day-accent: #FDCEDF;
-            --day-border: #F2BED1;
-            --day-text: #371B58;
-            --day-btn-text: #F9F5F6;
+            --primary-color: #2D3480;
+            --secondary-color: #C4E9EC;
+            --accent-color: #5A67D8;
+            --text-color: #2D3748;
+            --light-text: #F8FAFC;
+            --bg-color: #F8FAFC;
+            --section-bg: #FFFFFF;
+            --border-color: #E2E8F0;
             
             /* الوضع الليلي */
-            --night-bg: #1A1A2E;
-            --night-section: #16213E;
-            --night-accent: #0F3460;
-            --night-border: #533483;
-            --night-text: #E8E8E8;
-            --night-btn-text: #1A1A2E;
+            --night-primary: #2D3480;
+            --night-secondary: #1E3A8A;
+            --night-accent: #4C51BF;
+            --night-text: #E2E8F0;
+            --night-light-text: #F8FAFC;
+            --night-bg: #1A202C;
+            --night-section: #2D3748;
+            --night-border: #4A5568;
         }
 
         /* إعدادات عامة */
@@ -34,14 +38,16 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1);
             line-height: 1.6;
             padding-bottom: 80px;
+            opacity: 0;
+            animation: fadeIn 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
         }
 
         .day-mode {
-            background-color: var(--day-bg);
-            color: var(--day-text);
+            background-color: var(--bg-color);
+            color: var(--text-color);
         }
 
         .night-mode {
@@ -57,17 +63,40 @@
 
         /* الهيدر */
         header {
-            padding: 40px 30px;
+            padding: 50px 30px;
             text-align: center;
             margin-bottom: 40px;
-            border-radius: 15px;
-            transition: all 0.3s ease;
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1);
             position: relative;
-            background: linear-gradient(135deg, var(--day-accent), var(--day-section));
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: var(--light-text);
+            box-shadow: 0 10px 30px rgba(45, 52, 128, 0.2);
+            transform: translateY(-20px);
+            opacity: 0;
+            animation: slideUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s forwards;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(0deg);
+            transition: all 1s ease;
+        }
+
+        header:hover::before {
+            transform: rotate(180deg);
         }
 
         .night-mode header {
-            background: linear-gradient(135deg, var(--night-accent), var(--night-section));
+            background: linear-gradient(135deg, var(--night-primary), var(--night-accent));
+            box-shadow: 0 10px 30px rgba(26, 32, 44, 0.3);
         }
 
         header h1 {
@@ -75,13 +104,17 @@
             margin-bottom: 15px;
             color: inherit;
             font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .job-title {
             font-size: 1.4rem;
             margin-bottom: 20px;
             opacity: 0.9;
-            font-weight: 500;
+            font-weight: 400;
+            animation: fadeIn 1s ease 0.4s forwards;
+            opacity: 0;
         }
 
         .contact-info {
@@ -90,7 +123,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
         }
 
         .contact-info a, .contact-info span {
@@ -99,99 +132,102 @@
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            opacity: 0.9;
+            transform: translateY(10px);
+            opacity: 0;
+            animation: fadeInUp 0.6s ease 0.6s forwards;
         }
 
+        .contact-info a:nth-child(1) { animation-delay: 0.6s; }
+        .contact-info a:nth-child(2) { animation-delay: 0.7s; }
+        .contact-info a:nth-child(3) { animation-delay: 0.8s; }
+
         .contact-info a:hover {
-            color: var(--day-accent);
-            text-decoration: none;
+            color: var(--secondary-color);
+            transform: translateY(-3px) scale(1.05);
         }
 
         .night-mode .contact-info a:hover {
-            color: var(--night-accent);
+            color: var(--secondary-color);
         }
 
         /* الأقسام الرئيسية */
         section {
             margin-bottom: 40px;
-            border-radius: 15px;
-            padding: 30px;
-            transition: all 0.3s ease;
+            border-radius: 12px;
+            padding: 35px;
+            transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1);
             position: relative;
             overflow: hidden;
-        }
-
-        section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 5px;
-            height: 100%;
-            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            transform: translateY(20px);
+            opacity: 0;
         }
 
         .day-mode section {
-            background-color: var(--day-section);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .day-mode section::before {
-            background-color: var(--day-accent);
+            background-color: var(--section-bg);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
         }
 
         .night-mode section {
             background-color: var(--night-section);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: var(--night-border);
         }
 
-        .night-mode section::before {
-            background-color: var(--night-accent);
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
         }
 
         section h2 {
             font-size: 2rem;
             margin-bottom: 25px;
             padding-bottom: 10px;
-            border-bottom: 2px solid;
+            border-bottom: 2px solid var(--secondary-color);
             display: flex;
             align-items: center;
             gap: 15px;
             font-weight: 600;
-        }
-
-        .day-mode section h2 {
-            border-color: var(--day-accent);
+            color: var(--primary-color);
         }
 
         .night-mode section h2 {
-            border-color: var(--night-accent);
+            color: var(--secondary-color);
+            border-color: var(--accent-color);
         }
 
         section h2 i {
             font-size: 1.5rem;
+            color: var(--accent-color);
+            transition: all 0.3s ease;
+        }
+
+        section h2:hover i {
+            transform: rotate(15deg) scale(1.2);
+        }
+
+        .night-mode section h2 i {
+            color: var(--secondary-color);
         }
 
         /* مربعات المحتوى */
         .content-box {
             margin-bottom: 30px;
             position: relative;
+            padding-right: 25px;
+            border-left: 3px solid var(--secondary-color);
             padding-left: 20px;
+            transition: all 0.3s ease;
         }
 
-        .content-box::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 5px;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: var(--day-accent);
+        .content-box:hover {
+            transform: translateX(5px);
         }
 
-        .night-mode .content-box::before {
-            background-color: var(--night-accent);
+        .night-mode .content-box {
+            border-left-color: var(--accent-color);
         }
 
         .content-box h3 {
@@ -203,57 +239,92 @@
             flex-wrap: wrap;
             gap: 10px;
             font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .night-mode .content-box h3 {
+            color: var(--secondary-color);
         }
 
         .date {
-            font-size: 1rem;
-            font-weight: normal;
-            opacity: 0.8;
-            background-color: var(--day-accent);
-            padding: 3px 10px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            padding: 5px 12px;
             border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .content-box:hover .date {
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
 
         .night-mode .date {
             background-color: var(--night-accent);
+            color: var(--night-light-text);
         }
 
         .job-position {
-            font-style: italic;
-            margin-bottom: 15px;
-            color: inherit;
-            opacity: 0.9;
-            font-size: 1.1rem;
             font-weight: 500;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .content-box:hover .job-position {
+            letter-spacing: 0.5px;
+        }
+
+        .night-mode .job-position {
+            color: var(--secondary-color);
         }
 
         ul {
-            padding-right: 20px;
+            padding-right: 25px;
             list-style-type: none;
         }
 
         ul li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             position: relative;
-            padding-right: 20px;
+            padding-right: 25px;
+            transition: all 0.3s ease;
+        }
+
+        ul li:hover {
+            transform: translateX(5px);
         }
 
         ul li::before {
             content: '▹';
             position: absolute;
             right: 0;
-            color: var(--day-accent);
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        ul li:hover::before {
+            color: var(--primary-color);
+            transform: scale(1.5);
         }
 
         .night-mode ul li::before {
-            color: var(--night-accent);
+            color: var(--secondary-color);
+        }
+
+        .night-mode ul li:hover::before {
+            color: var(--light-text);
         }
 
         /* المهارات */
         .skills-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
         }
 
         .skill-category {
@@ -263,84 +334,139 @@
         .skill-category h3 {
             font-size: 1.3rem;
             margin-bottom: 15px;
-            color: inherit;
+            color: var(--primary-color);
             font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+
+        .skill-category h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 50%;
+            height: 2px;
+            background-color: var(--secondary-color);
+            transition: all 0.4s ease;
+        }
+
+        .skill-category:hover h3::after {
+            width: 100%;
+        }
+
+        .night-mode .skill-category h3 {
+            color: var(--secondary-color);
+        }
+
+        .night-mode .skill-category h3::after {
+            background-color: var(--accent-color);
         }
 
         .skills-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
         }
 
         .skill-tag {
-            padding: 8px 15px;
-            border-radius: 20px;
+            padding: 8px 16px;
+            border-radius: 6px;
             font-size: 0.95rem;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             font-weight: 500;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            transform: scale(1);
         }
 
-        .day-mode .skill-tag {
-            background-color: var(--day-accent);
+        .skill-tag:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
         }
 
         .night-mode .skill-tag {
             background-color: var(--night-accent);
+            color: var(--night-light-text);
         }
 
         /* المشاريع */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
         }
 
         .project-card {
             padding: 25px;
             border-radius: 10px;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1);
             position: relative;
             overflow: hidden;
             height: 100%;
             display: flex;
             flex-direction: column;
+            border: 1px solid var(--border-color);
         }
 
         .project-card::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            right: 0;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 5px;
-            transition: all 0.3s ease;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .project-card:hover::after {
+            opacity: 1;
         }
 
         .day-mode .project-card {
-            background-color: var(--day-section);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--day-border);
-        }
-
-        .day-mode .project-card::after {
-            background-color: var(--day-accent);
+            background-color: var(--section-bg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
         }
 
         .night-mode .project-card {
             background-color: var(--night-section);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--night-border);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-color: var(--night-border);
         }
 
-        .night-mode .project-card::after {
-            background-color: var(--night-accent);
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
         }
 
         .project-card h3 {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 15px;
             font-weight: 600;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+        }
+
+        .project-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: all 0.4s ease;
+        }
+
+        .project-card:hover h3::after {
+            width: 100%;
+        }
+
+        .night-mode .project-card h3 {
+            color: var(--secondary-color);
         }
 
         .project-card p {
@@ -348,37 +474,49 @@
             opacity: 0.9;
             margin-bottom: 20px;
             flex-grow: 1;
+            line-height: 1.7;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover p {
+            opacity: 1;
         }
 
         .project-links {
             display: flex;
-            gap: 10px;
+            gap: 12px;
+            margin-top: auto;
         }
 
         .project-link {
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-size: 0.9rem;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 0.95rem;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-        }
-
-        .day-mode .project-link {
-            background-color: var(--day-text);
-            color: var(--day-btn-text);
+            gap: 8px;
+            font-weight: 500;
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            transform: scale(1);
         }
 
         .night-mode .project-link {
-            background-color: var(--night-text);
-            color: var(--night-btn-text);
+            background-color: var(--accent-color);
+            color: var(--night-light-text);
         }
 
         .project-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            background-color: var(--accent-color);
+        }
+
+        .night-mode .project-link:hover {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
         }
 
         /* أزرار التحكم */
@@ -402,52 +540,63 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .day-mode .theme-toggle, .day-mode .lang-toggle {
-            background-color: var(--day-text);
-            color: var(--day-btn-text);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            transform: scale(1);
         }
 
         .night-mode .theme-toggle, .night-mode .lang-toggle {
-            background-color: var(--night-text);
-            color: var(--night-btn-text);
+            background-color: var(--accent-color);
+            color: var(--night-light-text);
         }
 
         .theme-toggle:hover, .lang-toggle:hover {
-            transform: scale(1.1);
+            transform: scale(1.15) rotate(10deg);
+            background-color: var(--accent-color);
+        }
+
+        .night-mode .theme-toggle:hover, .night-mode .lang-toggle:hover {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
         }
 
         /* زر التنزيل */
         .download-btn {
             display: inline-block;
             padding: 12px 30px;
-            margin: 25px 0 10px;
+            margin: 30px 0 10px;
             border-radius: 30px;
             font-weight: 600;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .day-mode .download-btn {
-            background-color: var(--day-text);
-            color: var(--day-btn-text);
-        }
-
-        .night-mode .download-btn {
-            background-color: var(--night-text);
-            color: var(--night-btn-text);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: var(--light-text);
+            color: var(--primary-color);
+            transform: scale(1);
+            opacity: 0;
+            animation: fadeInUp 0.6s ease 0.8s forwards;
         }
 
         .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+
+        .night-mode .download-btn {
+            background-color: var(--night-light-text);
+            color: var(--night-primary);
+        }
+
+        .night-mode .download-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--night-light-text);
         }
 
         /* الفوتر */
@@ -458,20 +607,16 @@
             right: 0;
             padding: 20px;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             z-index: 10;
-        }
-
-        .day-mode footer {
-            background-color: var(--day-section);
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            border-top: 1px solid var(--day-border);
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            transform: translateY(100%);
+            animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) 1s forwards;
         }
 
         .night-mode footer {
-            background-color: var(--night-section);
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
-            border-top: 1px solid var(--night-border);
+            background-color: var(--night-primary);
         }
 
         .footer-content {
@@ -484,42 +629,50 @@
 
         .copyright {
             font-size: 0.95rem;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
+
+        footer:hover .copyright {
+            opacity: 1;
+            transform: scale(1.02);
         }
 
         .social-links {
             display: flex;
-            gap: 20px;
+            gap: 15px;
         }
 
         .social-links a {
-            color: inherit;
-            font-size: 1.3rem;
-            transition: all 0.3s ease;
+            color: var(--light-text);
+            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             width: 40px;
             height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .day-mode .social-links a {
-            background-color: var(--day-accent);
-        }
-
-        .night-mode .social-links a {
-            background-color: var(--night-accent);
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1);
         }
 
         .social-links a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px) scale(1.15) rotate(10deg);
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .night-mode .social-links a:hover {
+            background-color: var(--accent-color);
+            color: var(--night-light-text);
         }
 
         /* التجاوبية */
         @media (max-width: 992px) {
             header {
-                padding: 30px 20px;
+                padding: 40px 25px;
             }
             
             header h1 {
@@ -531,11 +684,15 @@
             }
             
             section {
-                padding: 25px;
+                padding: 30px;
             }
             
             section h2 {
                 font-size: 1.8rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             }
         }
 
@@ -545,7 +702,7 @@
             }
             
             header {
-                padding: 25px 15px;
+                padding: 30px 20px;
                 margin-bottom: 30px;
             }
             
@@ -559,11 +716,11 @@
             
             .contact-info {
                 flex-direction: column;
-                gap: 8px;
+                gap: 10px;
             }
             
             section {
-                padding: 20px;
+                padding: 25px;
                 margin-bottom: 30px;
             }
             
@@ -590,15 +747,15 @@
             
             .control-buttons {
                 flex-direction: row;
-                top: 10px;
-                left: 10px;
+                top: 15px;
+                left: 15px;
                 gap: 10px;
             }
             
             .theme-toggle, .lang-toggle {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
             }
         }
 
@@ -627,24 +784,59 @@
             .social-links a {
                 width: 35px;
                 height: 35px;
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
         }
 
         /* تأثيرات الحركة */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
 
         section, .project-card {
-            animation: fadeIn 0.6s ease forwards;
+            animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
         }
 
-        section:nth-child(2) { animation-delay: 0.1s; }
-        section:nth-child(3) { animation-delay: 0.2s; }
-        section:nth-child(4) { animation-delay: 0.3s; }
-        section:nth-child(5) { animation-delay: 0.4s; }
+        section:nth-child(1) { animation-delay: 0.3s; }
+        section:nth-child(2) { animation-delay: 0.4s; }
+        section:nth-child(3) { animation-delay: 0.5s; }
+        section:nth-child(4) { animation-delay: 0.6s; }
+        section:nth-child(5) { animation-delay: 0.7s; }
 
         /* إخفاء المحتوى غير النشط للغة */
         [lang="ar"], [lang="en"] {
@@ -660,19 +852,21 @@
             text-align: left;
         }
         
-        html[dir="ltr"] section::before {
-            right: auto;
-            left: 0;
+        html[dir="ltr"] .content-box {
+            padding-right: 0;
+            padding-left: 25px;
+            border-left: none;
+            border-right: 3px solid var(--secondary-color);
         }
         
         html[dir="ltr"] ul {
             padding-right: 0;
-            padding-left: 20px;
+            padding-left: 25px;
         }
         
         html[dir="ltr"] ul li {
             padding-right: 0;
-            padding-left: 20px;
+            padding-left: 25px;
         }
         
         html[dir="ltr"] ul li::before {
@@ -680,14 +874,13 @@
             left: 0;
         }
         
-        html[dir="ltr"] .content-box {
-            padding-left: 0;
-            padding-right: 20px;
+        html[dir="ltr"] .skill-category h3::after {
+            right: auto;
+            left: 0;
         }
         
-        html[dir="ltr"] .content-box::before {
-            left: auto;
-            right: 0;
+        .night-mode html[dir="ltr"] .content-box {
+            border-right-color: var(--accent-color);
         }
     </style>
 </head>
@@ -807,6 +1000,8 @@
                             <span class="skill-tag">HTML5</span>
                             <span class="skill-tag">CSS3</span>
                             <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">Bootstrap</span>
+                            <span class="skill-tag">jQuery</span>
                         </div>
                     </div>
                     
@@ -816,6 +1011,7 @@
                             <span class="skill-tag">C#</span>
                             <span class="skill-tag">ASP.NET</span>
                             <span class="skill-tag">PHP</span>
+                            <span class="skill-tag">Node.js</span>
                         </div>
                     </div>
                     
@@ -824,6 +1020,7 @@
                         <div class="skills-list">
                             <span class="skill-tag">MySQL</span>
                             <span class="skill-tag">SQL Server</span>
+                            <span class="skill-tag">MongoDB</span>
                         </div>
                     </div>
                     
@@ -833,6 +1030,7 @@
                             <span class="skill-tag">Git</span>
                             <span class="skill-tag">Trello</span>
                             <span class="skill-tag">Android Studio</span>
+                            <span class="skill-tag">VS Code</span>
                         </div>
                     </div>
                 </div>
@@ -923,15 +1121,13 @@
                 body.classList.remove('day-mode');
                 body.classList.add('night-mode');
                 themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'night');
             } else {
                 body.classList.remove('night-mode');
                 body.classList.add('day-mode');
                 themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'day');
             }
-            
-            // حفظ التفضيل في localStorage
-            const currentTheme = body.classList.contains('day-mode') ? 'day' : 'night';
-            localStorage.setItem('theme', currentTheme);
         }
 
         // تبديل اللغة العربية/الإنجليزية
@@ -944,29 +1140,21 @@
                 html.setAttribute('lang', 'en');
                 html.setAttribute('dir', 'ltr');
                 document.title = "Roaa Sultan | Full Stack Web Developer";
-                
-                // تبديل عرض العناصر حسب اللغة
                 document.querySelectorAll('[lang="ar"]').forEach(el => el.classList.remove('active'));
                 document.querySelectorAll('[lang="en"]').forEach(el => el.classList.add('active'));
-                
-                // تحديث زر اللغة
                 langToggle.innerHTML = '<i class="fas fa-font"></i>';
+                localStorage.setItem('language', 'en');
+                localStorage.setItem('direction', 'ltr');
             } else {
                 html.setAttribute('lang', 'ar');
                 html.setAttribute('dir', 'rtl');
                 document.title = "رؤى سلطان | مطورة ويب كاملة";
-                
-                // تبديل عرض العناصر حسب اللغة
                 document.querySelectorAll('[lang="en"]').forEach(el => el.classList.remove('active'));
                 document.querySelectorAll('[lang="ar"]').forEach(el => el.classList.add('active'));
-                
-                // تحديث زر اللغة
                 langToggle.innerHTML = '<i class="fas fa-language"></i>';
+                localStorage.setItem('language', 'ar');
+                localStorage.setItem('direction', 'rtl');
             }
-            
-            // حفظ التفضيل في localStorage
-            localStorage.setItem('language', html.getAttribute('lang'));
-            localStorage.setItem('direction', html.getAttribute('dir'));
         }
 
         // تحميل التفضيلات المحفوظة عند تحميل الصفحة
@@ -1004,11 +1192,6 @@
                 document.querySelectorAll('[lang="ar"]').forEach(el => el.classList.add('active'));
                 langToggle.innerHTML = '<i class="fas fa-language"></i>';
             }
-            
-            // تفعيل تأثيرات الحركة بعد تحميل الصفحة
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-            }, 100);
         });
     </script>
 </body>
